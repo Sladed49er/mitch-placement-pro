@@ -31,52 +31,39 @@ export async function GET(request: Request) {
       orderBy: { createdAt: 'desc' }
     });
 
-    // Convert to CSV - only include fields that exist in the schema
-    const headers = [
-      'Reference Number',
-      'Created Date',
-      'Status',
-      'User Email',
-      'User Name',
-      'Business Name',
-      'Address',
-      'City',
-      'Province',
-      'Postal Code',
-      'Phone',
-      'Email',
-      'Industry Code',
-      'Industry Description',
-      'Business Type',
-      'Year Established',
-      'Employees',
-      'Annual Revenue',
-      'Carriers Selected',
-      'AI Predictions'
-    ];
+    // Convert to CSV - using only fields that exist in the schema
+    const headers = session.user.role === 'admin' 
+      ? ['Reference Number', 'User Email', 'User Name', 'Business Name', 'City', 'Province', 'Revenue', 'Status', 'Created Date']
+      : ['Reference Number', 'Business Name', 'City', 'Province', 'Revenue', 'Status', 'Created Date'];
 
-    const rows = placements.map(p => [
-      p.referenceNumber || '',
-      new Date(p.createdAt).toLocaleDateString(),
-      p.status || '',
-      p.user?.email || '',
-      p.user?.name || '',
-      p.businessName || '',
-      p.address || '',
-      p.city || '',
-      p.province || '',
-      p.postalCode || '',
-      p.phone || '',
-      p.email || '',
-      p.industryCode || '',
-      p.industryDescription || '',
-      p.businessType || '',
-      p.yearEstablished || '',
-      p.employees || '',
-      p.revenue || '',
-      p.selectedCarriers ? JSON.parse(p.selectedCarriers as string).join('; ') : '',
-      p.aiPredictions || ''
-    ]);
+    const rows = placements.map(p => {
+      const baseRow = [
+        p.referenceNumber || '',
+        p.businessName || '',
+        p.city || '',
+        p.province || '',
+        p.revenue?.toString() || '0',
+        p.status || '',
+        new Date(p.createdAt).toLocaleDateString()
+      ];
+
+      if (session.user.role === 'admin') {
+        // Add user info at the beginning for admin export
+        return [
+          p.referenceNumber || '',
+          p.user?.email || '',
+          p.user?.name || '',
+          p.businessName || '',
+          p.city || '',
+          p.province || '',
+          p.revenue?.toString() || '0',
+          p.status || '',
+          new Date(p.createdAt).toLocaleDateString()
+        ];
+      }
+
+      return baseRow;
+    });
 
     // Create CSV content
     const csvContent = [
