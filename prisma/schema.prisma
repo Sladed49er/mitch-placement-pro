@@ -74,7 +74,7 @@ model AgencyCarrierSetting {
 }
 
 // ==========================================
-// UPDATED PLACEMENT MODEL (with optional user fields)
+// UPDATED PLACEMENT MODEL (with address field)
 // ==========================================
 
 model Placement {
@@ -87,7 +87,7 @@ model Placement {
   agencyId          String?
   agency            Agency?  @relation(fields: [agencyId], references: [id])
   
-  // Existing fields remain unchanged
+  // Client info fields - INCLUDING ADDRESS
   businessName      String
   postalCode        String
   city              String
@@ -95,6 +95,7 @@ model Placement {
   contactName       String
   contactEmail      String
   contactPhone      String
+  address           String?  // Street address field (ADDED)
   
   businessType      String?
   naicsCode         String?

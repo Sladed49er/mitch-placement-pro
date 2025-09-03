@@ -2,8 +2,8 @@
  * ============================================
  * FILE: /app/placement/page.tsx
  * LOCATION: Replace ENTIRE file at /app/placement/page.tsx
- * PURPOSE: Complete placement wizard with ALL features + mobile fixes
- * INCLUDES: Postal code validation, phone formatting, ComparativeRater, mobile-responsive carriers
+ * PURPOSE: Complete placement wizard with ALL features + mobile fixes + user save
+ * INCLUDES: Postal code validation, phone formatting, ComparativeRater, mobile-responsive carriers, save to database
  * ============================================
  */
 
@@ -11,8 +11,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import ComparativeRater from '@/app/components/ComparativeRater';
-import { AIAppetitePredictor } from '@/app/components/AIAppetitePredictor';
+import AIAppetitePredictor from '@/app/components/AIAppetitePredictor';
 
 // Import postal codes data
 const postalCodesData = require('@/data/postal-codes.json');
@@ -118,6 +119,7 @@ const citiesByProvince: { [key: string]: string[] } = {
 
 export default function PlacementPage() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -125,6 +127,7 @@ export default function PlacementPage() {
   const [selectedCarriers, setSelectedCarriers] = useState<string[]>([]);
   const [trackingNumber, setTrackingNumber] = useState('');
   const [postalCodeInfo, setPostalCodeInfo] = useState<string>('');
+  const [aiPredictions, setAiPredictions] = useState<any>(null);
   
   const [clientInfo, setClientInfo] = useState<ClientInfo>({
     businessName: '',
@@ -168,6 +171,13 @@ export default function PlacementPage() {
     data_storage: false,
     none_apply: false
   });
+
+  // Check authentication status
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin');
+    }
+  }, [status, router]);
 
   // Format phone number as user types
   const formatPhoneNumber = (value: string) => {
@@ -339,9 +349,13 @@ export default function PlacementPage() {
            businessDetails.yearsInBusiness;
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep === 1 && !validateStep1()) {
       return;
+    }
+    if (currentStep === 3 && selectedCarriers.length > 0) {
+      // Save placement before showing success
+      await savePlacement();
     }
     setError('');
     if (currentStep < 4) {
@@ -404,6 +418,57 @@ export default function PlacementPage() {
       '4+_claims': '3+ claims'
     };
     return mapping[history] || 'No claims (5+ years)';
+  };
+
+  // Save placement to database
+  const savePlacement = async () => {
+    try {
+      const response = await fetch('/api/placements/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          // Client info
+          businessName: clientInfo.businessName,
+          clientFirstName: clientInfo.firstName,
+          clientLastName: clientInfo.lastName,
+          email: clientInfo.email,
+          phone: clientInfo.phone,
+          address: clientInfo.address,
+          postalCode: clientInfo.postalCode,
+          city: clientInfo.city,
+          province: clientInfo.province,
+          
+          // Business details
+          industry: businessDetails.industry,
+          naicsCode: businessDetails.industry, // Using industry as NAICS for now
+          revenue: parseFloat(mapRevenueRange(businessDetails.annual_revenue_range || '1m-2.5m')),
+          employees: parseInt(mapEmployeeRange(businessDetails.employee_range || '11-25')),
+          yearsInBusiness: parseInt(mapYearsInBusiness(businessDetails.yearsInBusiness || '5')),
+          
+          // AI predictions and carrier matching
+          aiPredictions: aiPredictions,
+          aiScore: aiPredictions?.topCarriers?.[0]?.quoteProbability,
+          matchResults: carriers,
+          selectedCarriers: selectedCarriers,
+          
+          // Additional details
+          effectiveDate: new Date().toISOString(),
+        }),
+      });
+
+      const result = await response.json();
+      
+      if (result.success) {
+        setTrackingNumber(result.referenceNumber);
+        console.log('Placement saved with ID:', result.placementId);
+      } else {
+        console.error('Failed to save placement:', result.error);
+      }
+    } catch (error) {
+      console.error('Error saving placement:', error);
+    }
   };
 
   const handleFindCarriers = async () => {
@@ -473,10 +538,19 @@ export default function PlacementPage() {
     });
   };
 
-  const handleSubmitPlacements = () => {
+  const handleSubmitPlacements = async () => {
+    await savePlacement();
     setCurrentStep(4);
-    setTrackingNumber(`PL-${Date.now().toString().slice(-8)}`);
   };
+
+  // Show loading screen while checking auth
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
 
   // Render step indicator
   const renderStepIndicator = () => (
@@ -707,6 +781,7 @@ export default function PlacementPage() {
           yearsInBusiness: parseInt(mapYearsInBusiness(businessDetails.yearsInBusiness || '5')),
           lossHistory: mapLossHistory(businessDetails.loss_history || businessDetails.lossHistory || 'none')
         }}
+        onPredictions={(predictions) => setAiPredictions(predictions)}
       />
       
       {carriers.length === 0 ? (
@@ -874,7 +949,7 @@ export default function PlacementPage() {
         Your placement for <strong>{clientInfo.businessName}</strong> has been submitted to {selectedCarriers.length} carrier{selectedCarriers.length !== 1 ? 's' : ''}.
       </p>
       <p className="text-sm text-gray-500 mb-8">
-        Reference Number: <strong>{trackingNumber}</strong>
+        Reference Number: <strong>{trackingNumber || 'PL-' + Date.now().toString().slice(-8)}</strong>
       </p>
       
       <div className="bg-gray-50 rounded-lg p-4 mb-8 max-w-md mx-auto">
@@ -883,15 +958,16 @@ export default function PlacementPage() {
           <li>• Carriers will review the submission</li>
           <li>• You'll receive quotes within {carriers[0]?.responseTime || '24-48 hours'}</li>
           <li>• Check your email for updates</li>
+          <li>• View this placement in "My Placements"</li>
         </ul>
       </div>
       
       <div className="space-x-4">
         <button
-          onClick={() => router.push('/')}
+          onClick={() => router.push('/placements')}
           className="px-6 py-2 border rounded-lg hover:bg-gray-50"
         >
-          Back to Dashboard
+          View My Placements
         </button>
         <button
           onClick={() => {
@@ -942,6 +1018,7 @@ export default function PlacementPage() {
             setError('');
             setPostalCodeInfo('');
             setTrackingNumber('');
+            setAiPredictions(null);
           }}
           className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
@@ -955,7 +1032,14 @@ export default function PlacementPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold text-gray-900">🚀 Mitch Insurance - New Placement</h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-gray-900">🚀 Mitch Insurance - New Placement</h1>
+            {session?.user && (
+              <div className="text-sm text-gray-600">
+                {session.user.name || session.user.email}
+              </div>
+            )}
+          </div>
         </div>
       </div>
       

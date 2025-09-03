@@ -2,8 +2,8 @@
  * ============================================
  * FILE: /app/components/AIAppetitePredictor.tsx
  * LOCATION: Replace ENTIRE file at /app/components/AIAppetitePredictor.tsx
- * PURPOSE: Mobile-responsive AI predictions component with proper overflow handling
- * LAST UPDATED: Current version with all mobile fixes
+ * PURPOSE: AI predictions component with onPredictions callback
+ * FIX: Added onPredictions prop to interface and calls it when predictions are received
  * ============================================
  */
 
@@ -31,9 +31,10 @@ interface CarrierPrediction {
 
 interface AIAppetitePredictorProps {
   placement: Placement;
+  onPredictions?: (predictions: any) => void;  // ADDED THIS LINE
 }
 
-export function AIAppetitePredictor({ placement }: AIAppetitePredictorProps) {
+export default function AIAppetitePredictor({ placement, onPredictions }: AIAppetitePredictorProps) {
   const [predictions, setPredictions] = useState<CarrierPrediction[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -57,6 +58,11 @@ export function AIAppetitePredictor({ placement }: AIAppetitePredictorProps) {
 
       const data = await response.json();
       setPredictions(data.topCarriers || []);
+      
+      // ADDED: Call the onPredictions callback if provided
+      if (onPredictions) {
+        onPredictions(data);
+      }
     } catch (err) {
       console.error('AI Prediction error:', err);
       setError('Failed to get AI predictions. Please try again.');
