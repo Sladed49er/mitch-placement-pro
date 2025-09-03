@@ -60,8 +60,8 @@ export async function GET(request: Request) {
       p.referenceNumber,
       new Date(p.createdAt).toLocaleDateString(),
       p.status,
-      p.user.email,
-      p.user.name || '',
+      p.user?.email || '',  // Fixed: Added optional chaining
+      p.user?.name || '',    // Fixed: Added optional chaining
       p.clientName || '',
       p.businessName,
       p.address || '',
