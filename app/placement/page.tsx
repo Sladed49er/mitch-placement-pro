@@ -1,4 +1,4 @@
-// ============================================
+﻿// ============================================
 // FILE: /app/placement/page.tsx
 // LOCATION: Replace your existing /app/placement/page.tsx file with this entire content
 // PURPOSE: Main placement wizard page that uses the ComparativeRater component for Step 2
@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ComparativeRater from '@/app/components/ComparativeRater';
 import postalCodesData from '@/data/postal-codes.json';
+import { AIAppetitePredictor } from '@/app/components/AIAppetitePredictor';
 
 interface ClientInfo {
   businessName: string;
@@ -95,7 +96,7 @@ interface Carrier {
 // Common Canadian cities by province - defined at the top level
 const citiesByProvince: { [key: string]: string[] } = {
   'ON': ['Toronto', 'Ottawa', 'Mississauga', 'Hamilton', 'London', 'Kitchener', 'Windsor', 'Barrie', 'Kingston', 'Guelph'],
-  'QC': ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Longueuil', 'Sherbrooke', 'Saguenay', 'Trois-Rivières'],
+  'QC': ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Longueuil', 'Sherbrooke', 'Saguenay', 'Trois-RiviÃ¨res'],
   'BC': ['Vancouver', 'Surrey', 'Victoria', 'Burnaby', 'Richmond', 'Kelowna', 'Kamloops', 'Nanaimo'],
   'AB': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'Medicine Hat', 'Fort McMurray', 'Grande Prairie'],
   'MB': ['Winnipeg', 'Brandon', 'Steinbach', 'Thompson', 'Portage la Prairie'],
@@ -287,7 +288,7 @@ export default function PlacementWizard() {
         province: locationData.province,
         city: locationData.city
       }));
-      setPostalCodeInfo(`✓ ${locationData.city}, ${locationData.province}`);
+      setPostalCodeInfo(`âœ“ ${locationData.city}, ${locationData.province}`);
     } else {
       setClientInfo({...clientInfo, postalCode: formatted});
       if (formatted.length >= 3) {
@@ -543,7 +544,7 @@ export default function PlacementWizard() {
         <label className="block text-sm font-medium mb-1">
           Postal Code <span className="text-red-500">*</span>
           {postalCodeInfo && (
-            <span className={`ml-2 text-xs ${postalCodeInfo.startsWith('✓') ? 'text-green-600' : 'text-amber-600'}`}>
+            <span className={`ml-2 text-xs ${postalCodeInfo.startsWith('âœ“') ? 'text-green-600' : 'text-amber-600'}`}>
               {postalCodeInfo}
             </span>
           )}
@@ -833,7 +834,7 @@ export default function PlacementWizard() {
 
   const renderSuccess = () => (
     <div className="text-center py-12">
-      <div className="text-6xl mb-4">✅</div>
+      <div className="text-6xl mb-4">âœ…</div>
       <h2 className="text-3xl font-bold mb-4">Placement Submitted Successfully!</h2>
       <p className="text-gray-600 mb-2">
         Your placement for <strong>{clientInfo.businessName}</strong> has been submitted to {selectedCarriers.length} carrier{selectedCarriers.length !== 1 ? 's' : ''}.
@@ -845,9 +846,9 @@ export default function PlacementWizard() {
       <div className="bg-gray-50 rounded-lg p-4 mb-8 max-w-md mx-auto">
         <h3 className="font-semibold mb-2">Next Steps:</h3>
         <ul className="text-sm text-left text-gray-600 space-y-1">
-          <li>• Carriers will review the submission</li>
-          <li>• You'll receive quotes within {carriers[0]?.responseTime || '24-48 hours'}</li>
-          <li>• Check your email for updates</li>
+          <li>â€¢ Carriers will review the submission</li>
+          <li>â€¢ You'll receive quotes within {carriers[0]?.responseTime || '24-48 hours'}</li>
+          <li>â€¢ Check your email for updates</li>
         </ul>
       </div>
       
@@ -912,7 +913,7 @@ export default function PlacementWizard() {
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold text-gray-900">🍁 Mitch Insurance - New Placement</h1>
+          <h1 className="text-2xl font-bold text-gray-900">ðŸ Mitch Insurance - New Placement</h1>
         </div>
       </div>
       
