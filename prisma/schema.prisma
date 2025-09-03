@@ -8,86 +8,79 @@ datasource db {
 }
 
 model Carrier {
-  id                String   @id @default(uuid())
-  carrierId         String   @unique
+  id                String            @id @default(uuid())
   name              String
-  amBestRating      String
   provinces         String[]
-  linesOfBusiness   String[]
-  minPremium        Float
-  maxRevenue        Float
+  createdAt         DateTime          @default(now())
+  amBestRating      String
+  apiEnabled        Boolean           @default(false)
+  carrierId         String            @unique
   commissionNew     Float
   commissionRenewal Float
+  linesOfBusiness   String[]
+  maxRevenue        Float
+  minPremium        Float
+  mitchPartner      Boolean           @default(false)
   responseTime      String
-  apiEnabled        Boolean  @default(false)
-  mitchPartner      Boolean  @default(false)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
+  updatedAt         DateTime          @updatedAt
   appetites         CarrierAppetite[]
   placements        Placement[]
 }
 
 model CarrierAppetite {
-  id              String   @id @default(uuid())
-  carrierId       String
-  naicsCode       String
-  appetiteScore   Int      // 0-100 score
-  notes           String?
-  
-  carrier         Carrier  @relation(fields: [carrierId], references: [id])
-  naics           NAICSCode @relation(fields: [naicsCode], references: [code])
-  
+  id            String    @id @default(uuid())
+  carrierId     String
+  naicsCode     String
+  appetiteScore Int
+  notes         String?
+  carrier       Carrier   @relation(fields: [carrierId], references: [id])
+  naics         NAICSCode @relation(fields: [naicsCode], references: [code])
+
   @@unique([carrierId, naicsCode])
 }
 
 model NAICSCode {
-  code            String   @id
-  description     String
-  category        String
-  riskLevel       String   // preferred, standard, substandard, declined
-  baseRate        Float    // base premium rate
-  
-  appetites       CarrierAppetite[]
-  placements      Placement[]
+  code        String            @id
+  description String
+  category    String
+  riskLevel   String
+  baseRate    Float
+  appetites   CarrierAppetite[]
+  placements  Placement[]
 }
 
 model Placement {
-  id              String   @id @default(uuid())
-  clientName      String
-  contactEmail    String
-  contactPhone    String
-  province        String
-  naicsCode       String
-  revenue         Float
-  employees       Int
-  yearsInBusiness Int
-  lossHistory     String   // clean, minor, moderate, major
-  
+  id               String    @id @default(uuid())
+  clientName       String
+  revenue          Float
+  status           String
+  createdAt        DateTime  @default(now())
+  agentNotes       String?
+  boundAt          DateTime?
+  carrierId        String?
+  contactEmail     String
+  contactPhone     String
+  employees        Int
   estimatedPremium Float
-  matchScore      Int
-  status          String   // draft, submitted, quoted, bound, declined
-  submittedAt     DateTime?
-  quotedAt        DateTime?
-  boundAt         DateTime?
-  
-  carrierId       String?
-  agentNotes      String?
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  
-  carrier         Carrier? @relation(fields: [carrierId], references: [id])
-  naics           NAICSCode @relation(fields: [naicsCode], references: [code])
+  lossHistory      String
+  matchScore       Int
+  naicsCode        String
+  province         String
+  quotedAt         DateTime?
+  submittedAt      DateTime?
+  updatedAt        DateTime  @updatedAt
+  yearsInBusiness  Int
+  carrier          Carrier?  @relation(fields: [carrierId], references: [id])
+  naics            NAICSCode @relation(fields: [naicsCode], references: [code])
 }
 
 model MarketIntel {
   id              String   @id @default(uuid())
   date            DateTime @default(now())
-  propertyTrend   Float    // percentage change
+  propertyTrend   Float
   casualtyTrend   Float
   cyberTrend      Float
   autoTrend       Float
-  marketCondition String   // hard, softening, soft, hardening
+  marketCondition String
   notes           String?
 }
