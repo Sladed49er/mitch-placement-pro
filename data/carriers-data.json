@@ -1,0 +1,793 @@
+{
+  "carriers": [
+    {
+      "id": "intact-001",
+      "carrierId": "IFC",
+      "name": "Intact Insurance",
+      "parentCompany": "Intact Financial Corporation",
+      "amBestRating": "A+",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 500,
+      "maxRevenue": 500000000,
+      "commissionNew": 15,
+      "commissionRenewal": 12.5,
+      "responseTime": "24-48 hours",
+      "apiEnabled": true,
+      "apiDetails": {
+        "hasAPI": true,
+        "apiType": "REST",
+        "dataStandards": ["CSIO"],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Intact Insurance Client Centre"
+      },
+      "partnerStatus": "Preferred",
+      "specialties": ["Construction", "Manufacturing", "Retail", "Professional Services"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "umbrella": true,
+          "equipmentBreakdown": true,
+          "crimeInsurance": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Retail", "Professional Services", "Light Manufacturing"],
+        "restrictedIndustries": ["Cannabis", "Cryptocurrency", "Adult Entertainment"],
+        "maxEmployees": 500,
+        "minYearsInBusiness": 2,
+        "lossHistoryRequirements": "No more than 2 claims in past 3 years"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Bind", "Issue", "Endorsements", "Claims", "Documents"],
+        "training": "Available through broker portal"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-866-464-2424",
+        "website": "https://www.intact.ca",
+        "email": "broker.support@intact.net"
+      }
+    },
+    {
+      "id": "aviva-002",
+      "carrierId": "AVC",
+      "name": "Aviva Canada",
+      "parentCompany": "Aviva plc",
+      "amBestRating": "A",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "ON", "PE", "QC", "SK"],
+      "minPremium": 750,
+      "maxRevenue": 250000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "24-72 hours",
+      "apiEnabled": true,
+      "apiDetails": {
+        "hasAPI": true,
+        "apiType": "REST",
+        "dataStandards": ["CSIO"],
+        "realTimeQuoting": true,
+        "portalAvailable": true,
+        "portalName": "Aviva Ally"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Small Business", "Retail", "Professional Services", "Hospitality"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "umbrella": true,
+          "businessInterruption": true,
+          "onpointPackage": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Retail", "Office", "Professional Services", "Hospitality"],
+        "restrictedIndustries": ["Heavy Manufacturing", "Mining", "Aviation"],
+        "maxEmployees": 250,
+        "minYearsInBusiness": 1,
+        "lossHistoryRequirements": "Clean loss history preferred"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Aviva Ally Express", "Aviva Ally Digital Portal", "Email Submission"],
+        "training": "Online training modules available"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-866-692-8482",
+        "website": "https://www.aviva.ca",
+        "email": "commercial.underwriting@aviva.com"
+      }
+    },
+    {
+      "id": "northbridge-003",
+      "carrierId": "NBC",
+      "name": "Northbridge Insurance",
+      "parentCompany": "Northbridge Financial Corporation",
+      "amBestRating": "A",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 1000,
+      "maxRevenue": 1000000000,
+      "commissionNew": 15,
+      "commissionRenewal": 12.5,
+      "responseTime": "24-48 hours",
+      "apiEnabled": true,
+      "apiDetails": {
+        "hasAPI": true,
+        "apiType": "REST/JSON",
+        "dataStandards": ["CSIO", "JSON API"],
+        "realTimeQuoting": true,
+        "portalAvailable": true,
+        "portalName": "Commercial Connectivity",
+        "certifications": ["CSIO API Security Standards", "CSIO Commercial Lines Level 3", "JSON Certification"]
+      },
+      "partnerStatus": "Preferred",
+      "specialties": ["Construction", "Transportation", "Manufacturing", "Contractors"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialFleet": true,
+          "contractorsPackage": true,
+          "umbrella": true,
+          "surety": true,
+          "managementLiability": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Construction", "Transportation", "Manufacturing", "Specialty Trade Contractors"],
+        "restrictedIndustries": ["Cannabis", "Cryptocurrency"],
+        "maxEmployees": 1000,
+        "minYearsInBusiness": 2,
+        "lossHistoryRequirements": "Acceptable loss ratio"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Real-time quoting", "Direct BMS integration", "Applied Systems integration", "Automated underwriting"],
+        "training": "Comprehensive broker training program"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-866-464-2424",
+        "website": "https://www.northbridgeinsurance.ca",
+        "email": "broker.support@northbridge.ca"
+      }
+    },
+    {
+      "id": "wawanesa-004",
+      "carrierId": "WAW",
+      "name": "Wawanesa Insurance",
+      "parentCompany": "The Wawanesa Mutual Insurance Company",
+      "amBestRating": "A",
+      "headquarters": "Winnipeg, MB",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 500,
+      "maxRevenue": 100000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "24-48 hours",
+      "apiEnabled": true,
+      "apiDetails": {
+        "hasAPI": true,
+        "apiType": "REST",
+        "dataStandards": ["CSIO"],
+        "realTimeQuoting": true,
+        "portalAvailable": true,
+        "portalName": "Wawanesa Commercial API"
+      },
+      "partnerStatus": "Preferred",
+      "specialties": ["Small Business", "Contractors", "Retail", "Professional Services"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": false,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "umbrella": true,
+          "equipmentBreakdown": true,
+          "businessInterruption": true
+        },
+        "packages": {
+          "contractors": ["Electricians", "Carpenters", "Renovation", "Excavation"],
+          "retail": ["Food Services", "Retail Stores", "Hospitality"],
+          "professional": ["Business Services", "Consulting", "Technology"],
+          "specialty": ["Barber Shops", "Salons", "Spas", "Wellness"]
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Small Business", "Retail", "Contractors", "Professional Services"],
+        "restrictedIndustries": ["High-hazard Manufacturing", "Mining"],
+        "maxEmployees": 100,
+        "minYearsInBusiness": 1,
+        "lossHistoryRequirements": "Maximum 2 claims in 3 years"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Instant quoting", "Real-time binding", "Package solutions", "Risk assessment tools"],
+        "training": "Online and in-person training available"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-844-805-2772",
+        "website": "https://www.wawanesa.com",
+        "email": "commercial@wawanesa.com"
+      }
+    },
+    {
+      "id": "economical-005",
+      "carrierId": "ECO",
+      "name": "Economical Insurance",
+      "parentCompany": "Definity Financial Corporation",
+      "amBestRating": "A-",
+      "headquarters": "Waterloo, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "ON", "PE", "QC", "SK"],
+      "minPremium": 600,
+      "maxRevenue": 75000000,
+      "commissionNew": 13.5,
+      "commissionRenewal": 11.5,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Economical Broker Portal"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Agriculture", "Small Business", "Property Management"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": false,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "farmInsurance": true,
+          "umbrella": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Agriculture", "Small Retail", "Service Businesses"],
+        "restrictedIndustries": ["Heavy Industry", "High-tech Manufacturing"],
+        "maxEmployees": 50,
+        "minYearsInBusiness": 2,
+        "lossHistoryRequirements": "Clean loss history strongly preferred"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Policy management", "Claims reporting"],
+        "training": "Broker training sessions quarterly"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-265-2511",
+        "website": "https://www.economical.com",
+        "email": "broker.support@economical.com"
+      }
+    },
+    {
+      "id": "chubb-006",
+      "carrierId": "CHB",
+      "name": "Chubb Insurance Company of Canada",
+      "parentCompany": "Chubb Limited",
+      "amBestRating": "A++",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 2500,
+      "maxRevenue": 5000000000,
+      "commissionNew": 15,
+      "commissionRenewal": 15,
+      "responseTime": "24-48 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Chubb Marketplace"
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Large Commercial", "Complex Risks", "High-Value Properties", "Technology"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "directorsOfficers": true,
+          "errorsOmissions": true,
+          "environmentalLiability": true,
+          "umbrella": true,
+          "excess": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Technology", "Financial Services", "Manufacturing", "Healthcare"],
+        "restrictedIndustries": ["Cannabis", "Cryptocurrency Mining"],
+        "maxEmployees": 10000,
+        "minYearsInBusiness": 3,
+        "lossHistoryRequirements": "Detailed loss history review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote submission", "Policy documents", "Claims", "Risk engineering"],
+        "training": "Specialized underwriting training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-416-368-2811",
+        "website": "https://www.chubb.com/ca-en",
+        "email": "chubbcanada@chubb.com"
+      }
+    },
+    {
+      "id": "cooperators-007",
+      "carrierId": "COOP",
+      "name": "The Co-operators",
+      "parentCompany": "The Co-operators Group Limited",
+      "amBestRating": "A",
+      "headquarters": "Guelph, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 500,
+      "maxRevenue": 100000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Co-operators Broker Portal"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Agriculture", "Small Business", "Non-Profit", "Co-operatives"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": false,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "farmInsurance": true,
+          "umbrella": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Agriculture", "Small Business", "Non-Profit", "Retail"],
+        "restrictedIndustries": ["Heavy Manufacturing", "Mining"],
+        "maxEmployees": 100,
+        "minYearsInBusiness": 1,
+        "lossHistoryRequirements": "Standard loss history review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Policy management", "Claims"],
+        "training": "Regular broker webinars"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-267-2277",
+        "website": "https://www.cooperators.ca",
+        "email": "service@cooperators.ca"
+      }
+    },
+    {
+      "id": "rsacanada-008",
+      "carrierId": "RSA",
+      "name": "RSA Canada",
+      "parentCompany": "Intact Financial Corporation",
+      "amBestRating": "A+",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 1500,
+      "maxRevenue": 500000000,
+      "commissionNew": 15,
+      "commissionRenewal": 12.5,
+      "responseTime": "24-48 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "RSA Broker Portal"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Marine", "Construction", "Real Estate", "Mid-Market Commercial"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "marineInsurance": true,
+          "commercialAuto": true,
+          "builderRisk": true,
+          "umbrella": true,
+          "surety": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Construction", "Real Estate", "Marine", "Transportation"],
+        "restrictedIndustries": ["Cannabis", "Cryptocurrency"],
+        "maxEmployees": 500,
+        "minYearsInBusiness": 3,
+        "lossHistoryRequirements": "Detailed underwriting review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Bind", "Policy documents", "Claims"],
+        "training": "Specialized product training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-319-9993",
+        "website": "https://www.rsagroup.ca",
+        "email": "broker.support@rsagroup.ca"
+      }
+    },
+    {
+      "id": "gore-009",
+      "carrierId": "GORE",
+      "name": "Gore Mutual Insurance Company",
+      "parentCompany": "Gore Mutual Insurance Company",
+      "amBestRating": "A",
+      "headquarters": "Cambridge, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NS", "ON", "QC", "SK"],
+      "minPremium": 750,
+      "maxRevenue": 50000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Gore Mutual Broker Portal"
+      },
+      "partnerStatus": "Regional",
+      "specialties": ["Small Business", "Manufacturing", "Specialty Retail"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": false,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "umbrella": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Small Manufacturing", "Retail", "Service"],
+        "restrictedIndustries": ["High Hazard", "Cannabis"],
+        "maxEmployees": 75,
+        "minYearsInBusiness": 2,
+        "lossHistoryRequirements": "Clean loss history preferred"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Policy management", "Documents"],
+        "training": "Quarterly training sessions"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-265-8600",
+        "website": "https://www.goremutual.ca",
+        "email": "commercial@goremutual.ca"
+      }
+    },
+    {
+      "id": "sovereign-010",
+      "carrierId": "SOV",
+      "name": "Sovereign Insurance",
+      "parentCompany": "The Co-operators Group Limited",
+      "amBestRating": "A",
+      "headquarters": "Calgary, AB",
+      "provinces": ["AB", "BC", "MB", "NWT", "ON", "SK", "YT"],
+      "minPremium": 2000,
+      "maxRevenue": 250000000,
+      "commissionNew": 15,
+      "commissionRenewal": 12.5,
+      "responseTime": "24-48 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Sovereign Broker Portal"
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Energy", "Construction", "Transportation", "Agribusiness"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "energyLiability": true,
+          "commercialAuto": true,
+          "commercialFleet": true,
+          "builderRisk": true,
+          "wrapUpLiability": true,
+          "umbrella": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Energy", "Construction", "Transportation", "Agriculture"],
+        "restrictedIndustries": ["Cannabis", "Cryptocurrency"],
+        "maxEmployees": 1000,
+        "minYearsInBusiness": 3,
+        "lossHistoryRequirements": "Industry-specific review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote submission", "Policy documents", "Risk management tools"],
+        "training": "Industry-specific training programs"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-661-1652",
+        "website": "https://www.sovereigninsurance.ca",
+        "email": "info@sovereigninsurance.ca"
+      }
+    }
+  ],
+  "naicsCodes": [
+    {
+      "code": "236110",
+      "description": "Residential Building Construction",
+      "category": "Construction",
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008", "sovereign-010"]
+    },
+    {
+      "code": "236210",
+      "description": "Industrial Building Construction",
+      "category": "Construction",
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "rsacanada-008", "sovereign-010"]
+    },
+    {
+      "code": "236220",
+      "description": "Commercial and Institutional Building Construction",
+      "category": "Construction",
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008", "sovereign-010"]
+    },
+    {
+      "code": "238110",
+      "description": "Poured Concrete Foundation and Structure Contractors",
+      "category": "Specialty Trade Contractors",
+      "acceptedByCarriers": ["northbridge-003", "wawanesa-004", "rsacanada-008"]
+    },
+    {
+      "code": "238210",
+      "description": "Electrical Contractors and Other Wiring Installation Contractors",
+      "category": "Specialty Trade Contractors",
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008"]
+    },
+    {
+      "code": "238220",
+      "description": "Plumbing, Heating, and Air-Conditioning Contractors",
+      "category": "Specialty Trade Contractors",
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008"]
+    },
+    {
+      "code": "238990",
+      "description": "All Other Specialty Trade Contractors",
+      "category": "Specialty Trade Contractors",
+      "acceptedByCarriers": ["northbridge-003", "wawanesa-004"]
+    },
+    {
+      "code": "445110",
+      "description": "Supermarkets and Other Grocery Stores",
+      "category": "Retail Trade",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "economical-005", "cooperators-007"]
+    },
+    {
+      "code": "445120",
+      "description": "Convenience Stores",
+      "category": "Retail Trade",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "economical-005", "cooperators-007"]
+    },
+    {
+      "code": "448110",
+      "description": "Men's Clothing Stores",
+      "category": "Retail Trade",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007"]
+    },
+    {
+      "code": "448120",
+      "description": "Women's Clothing Stores",
+      "category": "Retail Trade",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007"]
+    },
+    {
+      "code": "541110",
+      "description": "Offices of Lawyers",
+      "category": "Professional Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+    },
+    {
+      "code": "541211",
+      "description": "Offices of Certified Public Accountants",
+      "category": "Professional Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+    },
+    {
+      "code": "541330",
+      "description": "Engineering Services",
+      "category": "Professional Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "chubb-006", "rsacanada-008"]
+    },
+    {
+      "code": "541511",
+      "description": "Custom Computer Programming Services",
+      "category": "Professional Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+    },
+    {
+      "code": "541512",
+      "description": "Computer Systems Design Services",
+      "category": "Professional Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+    },
+    {
+      "code": "541611",
+      "description": "Administrative Management and General Management Consulting Services",
+      "category": "Professional Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+    },
+    {
+      "code": "541810",
+      "description": "Advertising Agencies",
+      "category": "Professional Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004"]
+    },
+    {
+      "code": "531210",
+      "description": "Offices of Real Estate Agents and Brokers",
+      "category": "Real Estate",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "rsacanada-008"]
+    },
+    {
+      "code": "531320",
+      "description": "Offices of Real Estate Appraisers",
+      "category": "Real Estate",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "rsacanada-008"]
+    },
+    {
+      "code": "722511",
+      "description": "Full-Service Restaurants",
+      "category": "Accommodation and Food Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007"]
+    },
+    {
+      "code": "722513",
+      "description": "Limited-Service Restaurants",
+      "category": "Accommodation and Food Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007"]
+    },
+    {
+      "code": "812111",
+      "description": "Barber Shops",
+      "category": "Personal Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004"]
+    },
+    {
+      "code": "812112",
+      "description": "Beauty Salons",
+      "category": "Personal Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004"]
+    },
+    {
+      "code": "812199",
+      "description": "Other Personal Care Services (includes spas, tattoo parlors)",
+      "category": "Personal Services",
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004"]
+    },
+    {
+      "code": "484110",
+      "description": "General Freight Trucking, Local",
+      "category": "Transportation",
+      "acceptedByCarriers": ["northbridge-003", "rsacanada-008", "sovereign-010"]
+    },
+    {
+      "code": "484121",
+      "description": "General Freight Trucking, Long-Distance, Truckload",
+      "category": "Transportation",
+      "acceptedByCarriers": ["northbridge-003", "rsacanada-008", "sovereign-010"]
+    },
+    {
+      "code": "111110",
+      "description": "Soybean Farming",
+      "category": "Agriculture",
+      "acceptedByCarriers": ["economical-005", "cooperators-007", "sovereign-010"]
+    },
+    {
+      "code": "111120",
+      "description": "Oilseed (except Soybean) Farming",
+      "category": "Agriculture",
+      "acceptedByCarriers": ["economical-005", "cooperators-007", "sovereign-010"]
+    },
+    {
+      "code": "111140",
+      "description": "Wheat Farming",
+      "category": "Agriculture",
+      "acceptedByCarriers": ["economical-005", "cooperators-007", "sovereign-010"]
+    }
+  ],
+  "brokerIntegrations": {
+    "brokerManagementSystems": [
+      {
+        "name": "Applied Epic",
+        "supportedCarriers": ["intact-001", "northbridge-003", "wawanesa-004"],
+        "integrationType": "API",
+        "features": ["Real-time quoting", "Policy download", "Claims submission"]
+      },
+      {
+        "name": "Applied TAM",
+        "supportedCarriers": ["intact-001", "northbridge-003"],
+        "integrationType": "API",
+        "features": ["Quote submission", "Policy management"]
+      },
+      {
+        "name": "Broker One",
+        "supportedCarriers": ["intact-001", "aviva-002"],
+        "integrationType": "Portal",
+        "features": ["Quote submission", "Document management"]
+      },
+      {
+        "name": "CSIO Standards",
+        "supportedCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004"],
+        "integrationType": "EDI/XML",
+        "features": ["Data exchange", "eDocs", "Commercial lines standards"]
+      }
+    ]
+  },
+  "riskAppetiteMatrix": {
+    "lowRisk": {
+      "description": "Professional offices, low-hazard retail, business services",
+      "carriers": ["intact-001", "aviva-002", "wawanesa-004", "economical-005", "cooperators-007"],
+      "typicalPremium": "$500-$5,000"
+    },
+    "mediumRisk": {
+      "description": "Light manufacturing, contractors, restaurants",
+      "carriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008"],
+      "typicalPremium": "$5,000-$25,000"
+    },
+    "highRisk": {
+      "description": "Heavy construction, transportation, specialized manufacturing",
+      "carriers": ["northbridge-003", "chubb-006", "rsacanada-008", "sovereign-010"],
+      "typicalPremium": "$25,000+"
+    }
+  },
+  "metadata": {
+    "lastUpdated": "2025-09-02",
+    "source": "Public information compiled from carrier websites, industry reports, and broker resources",
+    "disclaimer": "This data is for reference only. Actual carrier appetite, rates, and availability may vary. Always consult with carriers directly for current information.",
+    "totalCarriers": 10,
+    "totalNAICSCodes": 30,
+    "dataCompleteness": "Partial - Based on publicly available information"
+  }
+}

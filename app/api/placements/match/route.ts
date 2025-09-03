@@ -1,162 +1,152 @@
-// app/api/placements/match/route.ts
 import { NextResponse } from 'next/server';
+import carriersData from '@/data/carriers-data.json';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    console.log('Placement match request:', body);
+    const { clientInfo, businessDetails } = body;
     
-    // Extract placement details
-    const { 
-      businessDetails: { 
-        industry, 
-        annualRevenue, 
-        numberOfEmployees,
-        yearsInBusiness,
-        lossHistory 
-      },
-      clientInfo: {
-        province
-      }
-    } = body;
+    console.log('Matching request received:', {
+      province: clientInfo.province,
+      industry: businessDetails.industry,
+      revenue: businessDetails.annualRevenue,
+      employees: businessDetails.numberOfEmployees
+    });
+
+    // Get all carriers
+    const allCarriers = carriersData.carriers;
     
-    // All available carriers
-    const allCarriers = [
-      {
-        id: '1',
-        carrierId: 'intact-001',
-        name: 'Intact Insurance',
-        amBestRating: 'A+',
-        provinces: ['ON', 'QC', 'BC', 'AB'],
-        minPremium: 2500,
-        maxRevenue: 50000000,
-        commissionNew: 15,
-        commissionRenewal: 12.5,
-        responseTime: '2-4 hours',
-        apiEnabled: true,
-        partnerStatus: 'Preferred',
-        specialties: ['Construction', 'Retail', 'Professional'],
-        notes: 'Preferred partner - fast response times'
-      },
-      {
-        id: '2',
-        carrierId: 'aviva-001',
-        name: 'Aviva Canada',
-        amBestRating: 'A',
-        provinces: ['ON', 'QC', 'BC', 'AB', 'MB', 'SK'],
-        minPremium: 3000,
-        maxRevenue: 40000000,
-        commissionNew: 12,
-        commissionRenewal: 10,
-        responseTime: '4-6 hours',
-        apiEnabled: true,
-        partnerStatus: 'Standard',
-        specialties: ['Retail', 'Hospitality', 'Technology'],
-        notes: 'Good for retail and hospitality sectors'
-      },
-      {
-        id: '3',
-        carrierId: 'northbridge-001',
-        name: 'Northbridge Insurance',
-        amBestRating: 'A',
-        provinces: ['ON', 'QC', 'BC', 'AB'],
-        minPremium: 5000,
-        maxRevenue: 75000000,
-        commissionNew: 14,
-        commissionRenewal: 12,
-        responseTime: '3-5 hours',
-        apiEnabled: false,
-        partnerStatus: 'Standard',
-        specialties: ['Construction', 'Manufacturing', 'Transportation'],
-        notes: 'Strong in construction and contractors'
-      },
-      {
-        id: '4',
-        carrierId: 'wawanesa-001',
-        name: 'Wawanesa Insurance',
-        amBestRating: 'A+',
-        provinces: ['ON', 'QC', 'BC', 'AB', 'MB', 'SK', 'NS', 'NB'],
-        minPremium: 2000,
-        maxRevenue: 30000000,
-        commissionNew: 13,
-        commissionRenewal: 11,
-        responseTime: '2-3 hours',
-        apiEnabled: true,
-        partnerStatus: 'Preferred',
-        specialties: ['Small Business', 'Professional', 'Retail'],
-        notes: 'Excellent for small to medium businesses'
-      }
-    ];
+    // Get NAICS code information for the selected industry
+    const selectedNAICS = carriersData.naicsCodes.find(
+      code => code.code === businessDetails.industry
+    );
     
+    console.log('Selected NAICS:', selectedNAICS?.code, selectedNAICS?.description);
+
     // Filter and score carriers
     const matchedCarriers = allCarriers
       .filter(carrier => {
-        // Check province coverage
-        if (province && !carrier.provinces.includes(province)) {
-          return false;
-        }
+        // Province is already in code format (e.g., "ON") from the form
+        const provinceMatch = carrier.provinces.includes(clientInfo.province);
         
-        // Check revenue limits
-        const revenue = parseInt(annualRevenue) || 0;
-        if (revenue > carrier.maxRevenue) {
-          return false;
-        }
+        // Check if carrier accepts this NAICS code
+        const naicsMatch = selectedNAICS ? 
+          selectedNAICS.acceptedByCarriers.includes(carrier.id) : 
+          false; // If NAICS not found, don't match
         
-        return true;
+        // Check revenue limits (remove commas from formatted number)
+        const revenue = parseFloat(businessDetails.annualRevenue.replace(/,/g, ''));
+        const revenueMatch = !isNaN(revenue) && revenue <= carrier.maxRevenue;
+        
+        // Check minimum premium (could enhance this with actual premium calculation)
+        const estimatedPremium = revenue * 0.01; // Rough estimate: 1% of revenue
+        const meetsMinPremium = estimatedPremium >= carrier.minPremium;
+        
+        console.log(`${carrier.name}: Province=${provinceMatch}, NAICS=${naicsMatch}, Revenue=${revenueMatch}, MinPrem=${meetsMinPremium}`);
+        
+        return provinceMatch && naicsMatch && revenueMatch && meetsMinPremium;
       })
       .map(carrier => {
-        let matchScore = 50; // Base score
+        // Calculate match score
+        let score = 50; // Base score
         
-        // Province match
-        if (province && carrier.provinces.includes(province)) {
-          matchScore += 20;
+        // Province coverage bonus (already filtered, so all get this)
+        score += 20;
+        
+        // Industry specialization bonus - check if carrier specializes in this category
+        if (selectedNAICS && carrier.specialties) {
+          // Check for exact specialty match
+          const hasSpecialty = carrier.specialties.some(specialty => 
+            selectedNAICS.category.toLowerCase().includes(specialty.toLowerCase()) ||
+            specialty.toLowerCase().includes(selectedNAICS.category.toLowerCase())
+          );
+          if (hasSpecialty) {
+            score += 15;
+          }
         }
         
-        // Revenue fit
-        const revenue = parseInt(annualRevenue) || 0;
-        if (revenue < carrier.maxRevenue * 0.5) {
-          matchScore += 15; // Well within limits
-        } else if (revenue < carrier.maxRevenue * 0.8) {
-          matchScore += 10; // Within comfortable limits
+        // API availability bonus
+        if (carrier.apiEnabled) {
+          score += 10;
         }
         
         // Partner status bonus
         if (carrier.partnerStatus === 'Preferred') {
-          matchScore += 15;
+          score += 15;
+        } else if (carrier.partnerStatus === 'Specialty') {
+          score += 10;
+        } else if (carrier.partnerStatus === 'Standard') {
+          score += 5;
         }
         
-        // API enabled bonus
-        if (carrier.apiEnabled) {
-          matchScore += 10;
+        // Response time bonus
+        if (carrier.responseTime === '24-48 hours') {
+          score += 5;
+        } else if (carrier.responseTime === '48-72 hours') {
+          score += 2;
         }
         
-        // Loss history consideration
+        // Loss history adjustment
+        const lossHistory = businessDetails.lossHistory;
         if (lossHistory === 'No claims (5+ years)') {
-          matchScore += 10;
+          score += 10;
         } else if (lossHistory === '1-2 claims') {
-          matchScore -= 5;
+          score += 0;
         } else if (lossHistory === '3+ claims') {
-          matchScore -= 15;
+          score -= 15;
         }
         
-        // Ensure score is between 0 and 100
-        matchScore = Math.min(100, Math.max(0, matchScore));
+        // Years in business adjustment
+        const yearsInBusiness = parseInt(businessDetails.yearsInBusiness);
+        if (!isNaN(yearsInBusiness)) {
+          if (yearsInBusiness >= carrier.underwritingGuidelines.minYearsInBusiness) {
+            score += 5;
+          } else {
+            score -= 10;
+          }
+        }
+        
+        // Size of business adjustment
+        const numEmployees = parseInt(businessDetails.numberOfEmployees);
+        if (!isNaN(numEmployees)) {
+          if (numEmployees <= 10) {
+            score += 5; // Small business bonus
+          } else if (numEmployees <= 50) {
+            score += 3;
+          } else if (numEmployees <= carrier.underwritingGuidelines.maxEmployees) {
+            score += 1;
+          } else {
+            score -= 10; // Too large for carrier
+          }
+        }
+        
+        // Revenue size bonus - carriers often prefer certain revenue ranges
+        const revenue = parseFloat(businessDetails.annualRevenue.replace(/,/g, ''));
+        if (!isNaN(revenue)) {
+          if (revenue >= 1000000 && revenue <= 10000000) {
+            score += 5; // Sweet spot for most carriers
+          } else if (revenue < 500000) {
+            score -= 5; // May be too small for some carriers
+          }
+        }
         
         return {
           ...carrier,
-          matchScore,
-          recommended: matchScore >= 75
+          matchScore: Math.min(100, Math.max(0, score)) // Cap between 0-100
         };
       })
-      .sort((a, b) => b.matchScore - a.matchScore);
+      .sort((a, b) => b.matchScore - a.matchScore); // Sort by score descending
     
-    // Return array directly (not wrapped in object)
+    console.log(`Found ${matchedCarriers.length} matching carriers`);
+    
+    // Return matched carriers even if empty array
     return NextResponse.json(matchedCarriers);
     
   } catch (error) {
     console.error('Error matching carriers:', error);
-    
-    // Return empty array on error so frontend doesn't break
-    return NextResponse.json([]);
+    return NextResponse.json(
+      { error: 'Failed to match carriers' },
+      { status: 500 }
+    );
   }
 }
