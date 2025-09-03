@@ -553,6 +553,1050 @@
         "website": "https://www.sovereigninsurance.ca",
         "email": "info@sovereigninsurance.ca"
       }
+    },
+    {
+      "id": "td-insurance-011",
+      "carrierId": "TDI",
+      "name": "TD Insurance",
+      "parentCompany": "TD Bank Group",
+      "amBestRating": "A",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 800,
+      "maxRevenue": 200000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "24-48 hours",
+      "apiEnabled": true,
+      "apiDetails": {
+        "hasAPI": true,
+        "apiType": "REST",
+        "dataStandards": ["CSIO"],
+        "realTimeQuoting": true,
+        "portalAvailable": true,
+        "portalName": "TD Insurance Broker Portal"
+      },
+      "partnerStatus": "Preferred",
+      "specialties": ["Small Business", "Professional Services", "Retail"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "umbrella": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Professional Services", "Small Business", "Retail"],
+        "restrictedIndustries": ["Cannabis", "Heavy Manufacturing"],
+        "maxEmployees": 250,
+        "minYearsInBusiness": 1,
+        "lossHistoryRequirements": "Maximum 2 claims in 3 years"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Bind", "Policy management", "Claims"],
+        "training": "Online training available"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-866-361-2311",
+        "website": "https://www.tdinsurance.com",
+        "email": "tdinsurance.commercial@td.com"
+      }
+    },
+    {
+      "id": "desjardins-012",
+      "carrierId": "DES",
+      "name": "Desjardins General Insurance",
+      "parentCompany": "Desjardins Group",
+      "amBestRating": "A",
+      "headquarters": "Lévis, QC",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 600,
+      "maxRevenue": 300000000,
+      "commissionNew": 14.5,
+      "commissionRenewal": 12,
+      "responseTime": "24-72 hours",
+      "apiEnabled": true,
+      "apiDetails": {
+        "hasAPI": true,
+        "apiType": "REST",
+        "dataStandards": ["CSIO"],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Desjardins Agent Centre"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Small Business", "Agriculture", "Co-operatives", "Professional Services"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "farmInsurance": true,
+          "umbrella": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Small Business", "Agriculture", "Professional Services"],
+        "restrictedIndustries": ["Cannabis", "Mining"],
+        "maxEmployees": 300,
+        "minYearsInBusiness": 1,
+        "lossHistoryRequirements": "Standard review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Policy management", "Claims", "Documents"],
+        "training": "Bilingual training available"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-888-277-1112",
+        "website": "https://www.desjardinsinsurance.com",
+        "email": "commercial@desjardins.com"
+      }
+    },
+    {
+      "id": "travelers-013",
+      "carrierId": "TRV",
+      "name": "Travelers Canada",
+      "parentCompany": "Travelers Companies Inc.",
+      "amBestRating": "A++",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 2000,
+      "maxRevenue": 1000000000,
+      "commissionNew": 15,
+      "commissionRenewal": 12.5,
+      "responseTime": "24-48 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Travelers Express"
+      },
+      "partnerStatus": "Preferred",
+      "specialties": ["Construction", "Technology", "Manufacturing", "Large Commercial"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "umbrella": true,
+          "surety": true,
+          "managementLiability": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Construction", "Technology", "Manufacturing"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 1000,
+        "minYearsInBusiness": 2,
+        "lossHistoryRequirements": "Detailed review required"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote submission", "Policy documents", "Risk control services"],
+        "training": "Specialized training programs"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-661-5522",
+        "website": "https://www.travelerscanada.ca",
+        "email": "canadainfo@travelers.com"
+      }
+    },
+    {
+      "id": "liberty-mutual-014",
+      "carrierId": "LMC",
+      "name": "Liberty Mutual Canada",
+      "parentCompany": "Liberty Mutual Insurance Company",
+      "amBestRating": "A",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 3000,
+      "maxRevenue": 2000000000,
+      "commissionNew": 15,
+      "commissionRenewal": 13,
+      "responseTime": "24-48 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Liberty Connect"
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Technology", "Construction", "Mid-Market Commercial", "Cross-Border"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "umbrella": true,
+          "errorsOmissions": true,
+          "directorsOfficers": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Technology", "Construction", "Manufacturing"],
+        "restrictedIndustries": ["Cannabis", "Cryptocurrency"],
+        "maxEmployees": 2000,
+        "minYearsInBusiness": 3,
+        "lossHistoryRequirements": "5-year detailed history required"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote submission", "Policy management", "Risk engineering"],
+        "training": "Advanced underwriting training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-844-840-6875",
+        "website": "https://business.libertymutual.ca",
+        "email": "canada@libertymutual.com"
+      }
+    },
+    {
+      "id": "pembridge-015",
+      "carrierId": "PEM",
+      "name": "Pembridge Insurance",
+      "parentCompany": "Allstate Insurance Company of Canada",
+      "amBestRating": "A-",
+      "headquarters": "Markham, ON",
+      "provinces": ["AB", "ON", "QC"],
+      "minPremium": 500,
+      "maxRevenue": 50000000,
+      "commissionNew": 13,
+      "commissionRenewal": 11,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Pembridge Broker Portal"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Non-Standard Markets", "Small Business", "High-Risk"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Small Business", "Non-Standard Risks"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 50,
+        "minYearsInBusiness": 0,
+        "lossHistoryRequirements": "Flexible for non-standard risks"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Bind", "Policy management"],
+        "training": "Basic training available"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-877-732-3424",
+        "website": "https://www.pembridge.com",
+        "email": "commercial@pembridge.com"
+      }
+    },{
+      "id": "zurich-016",
+      "carrierId": "ZUR",
+      "name": "Zurich Canada",
+      "parentCompany": "Zurich Insurance Group",
+      "amBestRating": "A+",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 5000,
+      "maxRevenue": 5000000000,
+      "commissionNew": 15,
+      "commissionRenewal": 13,
+      "responseTime": "24-48 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Zurich Edge"
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Large Commercial", "Construction", "Manufacturing", "International"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "internationalPackage": true,
+          "umbrella": true,
+          "environmentalLiability": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Large Commercial", "Manufacturing", "Construction"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 5000,
+        "minYearsInBusiness": 3,
+        "lossHistoryRequirements": "Comprehensive review required"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote submission", "Risk insights", "Global programs"],
+        "training": "Enterprise risk training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-387-5454",
+        "website": "https://www.zurich.ca",
+        "email": "canada.customercare@zurich.com"
+      }
+    },
+    {
+      "id": "aig-017",
+      "carrierId": "AIG",
+      "name": "AIG Canada",
+      "parentCompany": "American International Group",
+      "amBestRating": "A",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 5000,
+      "maxRevenue": 10000000000,
+      "commissionNew": 15,
+      "commissionRenewal": 13,
+      "responseTime": "24-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "AIG IntelliRisk"
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Complex Risks", "Financial Lines", "Cyber", "International"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "directorsOfficers": true,
+          "errorsOmissions": true,
+          "kidnappingRansom": true,
+          "tradeCredit": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Financial Services", "Technology", "Healthcare"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 10000,
+        "minYearsInBusiness": 3,
+        "lossHistoryRequirements": "5-year comprehensive review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote submission", "Risk assessment", "Claims analytics"],
+        "training": "Advanced specialty lines training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-387-4481",
+        "website": "https://www.aig.ca",
+        "email": "canada.brokers@aig.com"
+      }
+    },
+    {
+      "id": "trisura-018",
+      "carrierId": "TRI",
+      "name": "Trisura Guarantee Insurance",
+      "parentCompany": "Trisura Group Ltd.",
+      "amBestRating": "A-",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 1000,
+      "maxRevenue": 100000000,
+      "commissionNew": 15,
+      "commissionRenewal": 12.5,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Trisura Broker Portal"
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Surety", "Warranty", "Corporate Insurance", "Fronting"],
+      "products": {
+        "commercial": {
+          "surety": true,
+          "warranty": true,
+          "directorsOfficers": true,
+          "errorsOmissions": true,
+          "commercialPackage": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Construction", "Manufacturing", "Technology"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 500,
+        "minYearsInBusiness": 2,
+        "lossHistoryRequirements": "Standard review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote submission", "Bond issuance", "Policy management"],
+        "training": "Surety specialist training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-416-214-9500",
+        "website": "https://www.trisura.com",
+        "email": "info@trisura.com"
+      }
+    },
+    {
+      "id": "jevco-019",
+      "carrierId": "JEV",
+      "name": "JEVCO Insurance",
+      "parentCompany": "Intact Financial Corporation",
+      "amBestRating": "A+",
+      "headquarters": "Mississauga, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 1500,
+      "maxRevenue": 100000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "24-48 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "JEVCO Broker Portal"
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Transportation", "Recreational Vehicles", "Non-Standard Auto"],
+      "products": {
+        "commercial": {
+          "commercialAuto": true,
+          "commercialFleet": true,
+          "cargoInsurance": true,
+          "generalLiability": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Transportation", "Logistics", "Courier Services"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 200,
+        "minYearsInBusiness": 1,
+        "lossHistoryRequirements": "Transportation-specific review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Fleet management", "Claims tracking"],
+        "training": "Transportation insurance training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-503-8250",
+        "website": "https://www.jevco.ca",
+        "email": "commercial@jevco.ca"
+      }
+    },
+    {
+      "id": "sgi-canada-020",
+      "carrierId": "SGI",
+      "name": "SGI CANADA",
+      "parentCompany": "Saskatchewan Government Insurance",
+      "amBestRating": "A-",
+      "headquarters": "Regina, SK",
+      "provinces": ["AB", "BC", "MB", "SK"],
+      "minPremium": 500,
+      "maxRevenue": 50000000,
+      "commissionNew": 13,
+      "commissionRenewal": 11,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "SGI Broker Portal"
+      },
+      "partnerStatus": "Regional",
+      "specialties": ["Agriculture", "Small Business", "Western Canada"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "commercialAuto": true,
+          "farmInsurance": true,
+          "commercialPackage": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Agriculture", "Small Business", "Retail"],
+        "restrictedIndustries": ["Cannabis", "High-Tech Manufacturing"],
+        "maxEmployees": 100,
+        "minYearsInBusiness": 1,
+        "lossHistoryRequirements": "Standard review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Policy management", "Agriculture tools"],
+        "training": "Regional training programs"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-844-855-2744",
+        "website": "https://www.sgicanada.ca",
+        "email": "sgicanada@sgi.sk.ca"
+      }
+    },
+    {
+      "id": "temple-021",
+      "carrierId": "TEM",
+      "name": "Temple Insurance Company",
+      "parentCompany": "The Commonwell Mutual Insurance Group",
+      "amBestRating": "B++",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "ON", "PE", "QC", "SK"],
+      "minPremium": 1000,
+      "maxRevenue": 75000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Temple Broker Portal"
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Hospitality", "Entertainment", "Liquor Liability"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "liquorLiability": true,
+          "commercialPackage": true,
+          "businessInterruption": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Hospitality", "Restaurants", "Entertainment Venues"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 150,
+        "minYearsInBusiness": 2,
+        "lossHistoryRequirements": "Hospitality-specific review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Liquor liability tools", "Risk assessment"],
+        "training": "Hospitality insurance training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-665-7721",
+        "website": "https://www.templeinsurance.ca",
+        "email": "info@templeinsurance.ca"
+      }
+    },
+    {
+      "id": "echelon-022",
+      "carrierId": "ECH",
+      "name": "Echelon Insurance",
+      "parentCompany": "Echelon Financial Holdings Inc.",
+      "amBestRating": "B++",
+      "headquarters": "Mississauga, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 500,
+      "maxRevenue": 50000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Echelon Broker Portal"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Small Commercial", "Non-Standard Markets", "Hospitality"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "liquorLiability": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Small Business", "Hospitality", "Retail"],
+        "restrictedIndustries": ["Cannabis", "Heavy Manufacturing"],
+        "maxEmployees": 100,
+        "minYearsInBusiness": 0,
+        "lossHistoryRequirements": "Flexible for non-standard"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Non-standard tools", "Policy management"],
+        "training": "Non-standard market training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-888-941-3399",
+        "website": "https://www.echeloninsurance.ca",
+        "email": "info@echeloninsurance.ca"
+      }
+    },
+    {
+      "id": "belair-023",
+      "carrierId": "BEL",
+      "name": "Belair Insurance",
+      "parentCompany": "Intact Financial Corporation",
+      "amBestRating": "A+",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 500,
+      "maxRevenue": 25000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "24-48 hours",
+      "apiEnabled": true,
+      "apiDetails": {
+        "hasAPI": true,
+        "apiType": "REST",
+        "dataStandards": ["CSIO"],
+        "realTimeQuoting": true,
+        "portalAvailable": true,
+        "portalName": "Belair Direct"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Small Business", "Home-Based Business", "Professional Services"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "commercialPackage": true,
+          "homeBasedBusiness": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Small Business", "Professional Services", "Home-Based"],
+        "restrictedIndustries": ["Cannabis", "Heavy Manufacturing"],
+        "maxEmployees": 50,
+        "minYearsInBusiness": 0,
+        "lossHistoryRequirements": "Standard review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Instant quote", "Home-based tools", "Direct bind"],
+        "training": "Digital platform training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-877-715-7772",
+        "website": "https://www.belairdirect.com",
+        "email": "commercial@belairdirect.com"
+      }
+    },
+    {
+      "id": "pafco-024",
+      "carrierId": "PAF",
+      "name": "PAFCO Insurance",
+      "parentCompany": "Pembridge Insurance",
+      "amBestRating": "A-",
+      "headquarters": "Markham, ON",
+      "provinces": ["ON"],
+      "minPremium": 500,
+      "maxRevenue": 25000000,
+      "commissionNew": 13,
+      "commissionRenewal": 11,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "PAFCO Broker Portal"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Non-Standard Markets", "High-Risk", "Small Business"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Non-Standard Risks", "Small Business"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 25,
+        "minYearsInBusiness": 0,
+        "lossHistoryRequirements": "Flexible"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quick quote", "High-risk tools", "Bind authority"],
+        "training": "Non-standard training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-877-327-3700",
+        "website": "https://www.pafco.ca",
+        "email": "info@pafco.ca"
+      }
+    },
+    {
+      "id": "industrial-alliance-025",
+      "carrierId": "IAG",
+      "name": "iA Financial Group Commercial",
+      "parentCompany": "Industrial Alliance Insurance and Financial Services",
+      "amBestRating": "A+",
+      "headquarters": "Quebec City, QC",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 1000,
+      "maxRevenue": 150000000,
+      "commissionNew": 14.5,
+      "commissionRenewal": 12.5,
+      "responseTime": "24-72 hours",
+      "apiEnabled": true,
+      "apiDetails": {
+        "hasAPI": true,
+        "apiType": "REST",
+        "dataStandards": ["CSIO"],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "iA Commercial Portal"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Professional Services", "Small Business", "Group Benefits Integration"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "umbrella": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Professional Services", "Technology", "Small Manufacturing"],
+        "restrictedIndustries": ["Cannabis", "Mining"],
+        "maxEmployees": 250,
+        "minYearsInBusiness": 1,
+        "lossHistoryRequirements": "Standard review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Benefits integration", "Policy management"],
+        "training": "Comprehensive product training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-463-4515",
+        "website": "https://ia.ca",
+        "email": "commercial@ia.ca"
+      }
+    },
+    {
+      "id": "beneva-026",
+      "carrierId": "BEN",
+      "name": "Beneva",
+      "parentCompany": "Beneva Inc. (SSQ + La Capitale merger)",
+      "amBestRating": "A-",
+      "headquarters": "Quebec City, QC",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 750,
+      "maxRevenue": 100000000,
+      "commissionNew": 14,
+      "commissionRenewal": 12,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Beneva Broker Portal"
+      },
+      "partnerStatus": "Standard",
+      "specialties": ["Small Business", "Professional Services", "Co-operatives"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "commercialAuto": true,
+          "commercialPackage": true,
+          "umbrella": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Small Business", "Professional Services", "Non-Profit"],
+        "restrictedIndustries": ["Cannabis", "Heavy Manufacturing"],
+        "maxEmployees": 150,
+        "minYearsInBusiness": 1,
+        "lossHistoryRequirements": "Standard review"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote", "Bilingual support", "Policy management"],
+        "training": "French and English training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-866-669-7758",
+        "website": "https://www.beneva.ca",
+        "email": "commercial@beneva.ca"
+      }
+    },
+    {
+      "id": "munich-re-027",
+      "carrierId": "MRC",
+      "name": "Munich Re Canada",
+      "parentCompany": "Munich Re Group",
+      "amBestRating": "A+",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 10000,
+      "maxRevenue": 10000000000,
+      "commissionNew": 15,
+      "commissionRenewal": 13,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": false,
+        "portalName": null
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Reinsurance", "Large Complex Risks", "Specialty Lines"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "environmentalLiability": true,
+          "excessLiability": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Large Commercial", "Complex Manufacturing", "Energy"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 10000,
+        "minYearsInBusiness": 5,
+        "lossHistoryRequirements": "Comprehensive actuarial review"
+      },
+      "brokerPortal": {
+        "available": false,
+        "features": [],
+        "training": "Specialized reinsurance training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-416-366-2223",
+        "website": "https://www.munichre.com/ca",
+        "email": "info-canada@munichre.com"
+      }
+    },
+    {
+      "id": "swiss-re-028",
+      "carrierId": "SRC",
+      "name": "Swiss Re Canada",
+      "parentCompany": "Swiss Re Group",
+      "amBestRating": "A+",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 10000,
+      "maxRevenue": 10000000000,
+      "commissionNew": 15,
+      "commissionRenewal": 13,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": false,
+        "portalName": null
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Reinsurance", "Corporate Solutions", "Large Risks"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "directorsOfficers": true,
+          "excessLiability": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Large Commercial", "Financial Institutions", "Energy"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 10000,
+        "minYearsInBusiness": 5,
+        "lossHistoryRequirements": "Detailed actuarial analysis"
+      },
+      "brokerPortal": {
+        "available": false,
+        "features": [],
+        "training": "Corporate solutions training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-416-644-6600",
+        "website": "https://www.swissre.com",
+        "email": "canada_info@swissre.com"
+      }
+    },
+    {
+      "id": "lloyd's-029",
+      "carrierId": "LLO",
+      "name": "Lloyd's of London Canada",
+      "parentCompany": "Lloyd's of London",
+      "amBestRating": "A",
+      "headquarters": "Montreal, QC",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 5000,
+      "maxRevenue": 10000000000,
+      "commissionNew": 17.5,
+      "commissionRenewal": 15,
+      "responseTime": "48-96 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": false,
+        "portalName": null
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Unique Risks", "Hard-to-Place", "International", "Specialty Lines"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "cyberLiability": true,
+          "politicalRisk": true,
+          "marineInsurance": true,
+          "aviationInsurance": true,
+          "eventCancellation": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Unique/Complex Risks", "International Trade", "Specialty"],
+        "restrictedIndustries": [],
+        "maxEmployees": 10000,
+        "minYearsInBusiness": 0,
+        "lossHistoryRequirements": "Case-by-case basis"
+      },
+      "brokerPortal": {
+        "available": false,
+        "features": [],
+        "training": "Lloyd's coverholders training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-514-861-8361",
+        "website": "https://www.lloyds.com",
+        "email": "canada@lloyds.com"
+      }
+    },
+    {
+      "id": "markel-030",
+      "carrierId": "MKL",
+      "name": "Markel Canada",
+      "parentCompany": "Markel Corporation",
+      "amBestRating": "A",
+      "headquarters": "Toronto, ON",
+      "provinces": ["AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"],
+      "minPremium": 2500,
+      "maxRevenue": 500000000,
+      "commissionNew": 15,
+      "commissionRenewal": 12.5,
+      "responseTime": "48-72 hours",
+      "apiEnabled": false,
+      "apiDetails": {
+        "hasAPI": false,
+        "apiType": null,
+        "dataStandards": [],
+        "realTimeQuoting": false,
+        "portalAvailable": true,
+        "portalName": "Markel Broker Portal"
+      },
+      "partnerStatus": "Specialty",
+      "specialties": ["Specialty Lines", "Environmental", "Professional Liability", "Accident & Health"],
+      "products": {
+        "commercial": {
+          "property": true,
+          "generalLiability": true,
+          "professionalLiability": true,
+          "environmentalLiability": true,
+          "accidentHealth": true,
+          "eventLiability": true,
+          "umbrella": true
+        }
+      },
+      "underwritingGuidelines": {
+        "preferredIndustries": ["Environmental Services", "Professional Services", "Events"],
+        "restrictedIndustries": ["Cannabis"],
+        "maxEmployees": 1000,
+        "minYearsInBusiness": 2,
+        "lossHistoryRequirements": "Specialty risk assessment"
+      },
+      "brokerPortal": {
+        "available": true,
+        "features": ["Quote submission", "Specialty tools", "Environmental assessment"],
+        "training": "Specialty lines training"
+      },
+      "contactInfo": {
+        "brokerSupport": "1-800-223-8550",
+        "website": "https://www.markel.ca",
+        "email": "canada@markel.com"
+      }
     }
   ],
   "naicsCodes": [
@@ -560,115 +1604,115 @@
       "code": "236110",
       "description": "Residential Building Construction",
       "category": "Construction",
-      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008", "sovereign-010"]
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008", "sovereign-010", "travelers-013", "liberty-mutual-014", "zurich-016", "trisura-018"]
     },
     {
       "code": "236210",
       "description": "Industrial Building Construction",
       "category": "Construction",
-      "acceptedByCarriers": ["intact-001", "northbridge-003", "rsacanada-008", "sovereign-010"]
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "rsacanada-008", "sovereign-010", "travelers-013", "liberty-mutual-014", "zurich-016"]
     },
     {
       "code": "236220",
       "description": "Commercial and Institutional Building Construction",
       "category": "Construction",
-      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008", "sovereign-010"]
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008", "sovereign-010", "travelers-013", "liberty-mutual-014", "zurich-016", "trisura-018"]
     },
     {
       "code": "238110",
       "description": "Poured Concrete Foundation and Structure Contractors",
       "category": "Specialty Trade Contractors",
-      "acceptedByCarriers": ["northbridge-003", "wawanesa-004", "rsacanada-008"]
+      "acceptedByCarriers": ["northbridge-003", "wawanesa-004", "rsacanada-008", "travelers-013"]
     },
     {
       "code": "238210",
       "description": "Electrical Contractors and Other Wiring Installation Contractors",
       "category": "Specialty Trade Contractors",
-      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008"]
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008", "travelers-013"]
     },
     {
       "code": "238220",
       "description": "Plumbing, Heating, and Air-Conditioning Contractors",
       "category": "Specialty Trade Contractors",
-      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008"]
+      "acceptedByCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008", "travelers-013"]
     },
     {
       "code": "238990",
       "description": "All Other Specialty Trade Contractors",
       "category": "Specialty Trade Contractors",
-      "acceptedByCarriers": ["northbridge-003", "wawanesa-004"]
+      "acceptedByCarriers": ["northbridge-003", "wawanesa-004", "travelers-013"]
     },
     {
       "code": "445110",
       "description": "Supermarkets and Other Grocery Stores",
       "category": "Retail Trade",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "economical-005", "cooperators-007"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "economical-005", "cooperators-007", "td-insurance-011", "desjardins-012", "belair-023", "echelon-022"]
     },
     {
       "code": "445120",
       "description": "Convenience Stores",
       "category": "Retail Trade",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "economical-005", "cooperators-007"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "economical-005", "cooperators-007", "td-insurance-011", "desjardins-012", "pembridge-015", "echelon-022", "belair-023"]
     },
     {
       "code": "448110",
       "description": "Men's Clothing Stores",
       "category": "Retail Trade",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007", "td-insurance-011", "echelon-022"]
     },
     {
       "code": "448120",
       "description": "Women's Clothing Stores",
       "category": "Retail Trade",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007", "td-insurance-011", "echelon-022"]
     },
     {
       "code": "541110",
       "description": "Offices of Lawyers",
       "category": "Professional Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006", "td-insurance-011", "desjardins-012", "liberty-mutual-014", "aig-017", "industrial-alliance-025", "beneva-026", "markel-030"]
     },
     {
       "code": "541211",
       "description": "Offices of Certified Public Accountants",
       "category": "Professional Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006", "td-insurance-011", "desjardins-012", "industrial-alliance-025", "beneva-026"]
     },
     {
       "code": "541330",
       "description": "Engineering Services",
       "category": "Professional Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "chubb-006", "rsacanada-008"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "chubb-006", "rsacanada-008", "travelers-013", "liberty-mutual-014", "zurich-016", "aig-017", "industrial-alliance-025"]
     },
     {
       "code": "541511",
       "description": "Custom Computer Programming Services",
       "category": "Professional Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006", "td-insurance-011", "travelers-013", "liberty-mutual-014", "aig-017", "industrial-alliance-025", "trisura-018"]
     },
     {
       "code": "541512",
       "description": "Computer Systems Design Services",
       "category": "Professional Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006", "td-insurance-011", "travelers-013", "liberty-mutual-014", "aig-017", "industrial-alliance-025"]
     },
     {
       "code": "541611",
       "description": "Administrative Management and General Management Consulting Services",
       "category": "Professional Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "chubb-006", "td-insurance-011", "desjardins-012", "industrial-alliance-025", "beneva-026", "markel-030"]
     },
     {
       "code": "541810",
       "description": "Advertising Agencies",
       "category": "Professional Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "td-insurance-011", "industrial-alliance-025"]
     },
     {
       "code": "531210",
       "description": "Offices of Real Estate Agents and Brokers",
       "category": "Real Estate",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "rsacanada-008"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "rsacanada-008", "td-insurance-011"]
     },
     {
       "code": "531320",
@@ -680,68 +1724,68 @@
       "code": "722511",
       "description": "Full-Service Restaurants",
       "category": "Accommodation and Food Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007", "temple-021", "echelon-022"]
     },
     {
       "code": "722513",
       "description": "Limited-Service Restaurants",
       "category": "Accommodation and Food Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "cooperators-007", "temple-021", "echelon-022"]
     },
     {
       "code": "812111",
       "description": "Barber Shops",
       "category": "Personal Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "td-insurance-011", "belair-023"]
     },
     {
       "code": "812112",
       "description": "Beauty Salons",
       "category": "Personal Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "td-insurance-011", "belair-023"]
     },
     {
       "code": "812199",
       "description": "Other Personal Care Services (includes spas, tattoo parlors)",
       "category": "Personal Services",
-      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004"]
+      "acceptedByCarriers": ["intact-001", "aviva-002", "wawanesa-004", "td-insurance-011", "belair-023"]
     },
     {
       "code": "484110",
       "description": "General Freight Trucking, Local",
       "category": "Transportation",
-      "acceptedByCarriers": ["northbridge-003", "rsacanada-008", "sovereign-010"]
+      "acceptedByCarriers": ["northbridge-003", "rsacanada-008", "sovereign-010", "jevco-019"]
     },
     {
       "code": "484121",
       "description": "General Freight Trucking, Long-Distance, Truckload",
       "category": "Transportation",
-      "acceptedByCarriers": ["northbridge-003", "rsacanada-008", "sovereign-010"]
+      "acceptedByCarriers": ["northbridge-003", "rsacanada-008", "sovereign-010", "jevco-019"]
     },
     {
       "code": "111110",
       "description": "Soybean Farming",
       "category": "Agriculture",
-      "acceptedByCarriers": ["economical-005", "cooperators-007", "sovereign-010"]
+      "acceptedByCarriers": ["economical-005", "cooperators-007", "sovereign-010", "desjardins-012", "sgi-canada-020"]
     },
     {
       "code": "111120",
       "description": "Oilseed (except Soybean) Farming",
       "category": "Agriculture",
-      "acceptedByCarriers": ["economical-005", "cooperators-007", "sovereign-010"]
+      "acceptedByCarriers": ["economical-005", "cooperators-007", "sovereign-010", "desjardins-012", "sgi-canada-020"]
     },
     {
       "code": "111140",
       "description": "Wheat Farming",
       "category": "Agriculture",
-      "acceptedByCarriers": ["economical-005", "cooperators-007", "sovereign-010"]
+      "acceptedByCarriers": ["economical-005", "cooperators-007", "sovereign-010", "desjardins-012", "sgi-canada-020"]
     }
   ],
   "brokerIntegrations": {
     "brokerManagementSystems": [
       {
         "name": "Applied Epic",
-        "supportedCarriers": ["intact-001", "northbridge-003", "wawanesa-004"],
+        "supportedCarriers": ["intact-001", "northbridge-003", "wawanesa-004", "td-insurance-011", "belair-023"],
         "integrationType": "API",
         "features": ["Real-time quoting", "Policy download", "Claims submission"]
       },
@@ -753,13 +1797,13 @@
       },
       {
         "name": "Broker One",
-        "supportedCarriers": ["intact-001", "aviva-002"],
+        "supportedCarriers": ["intact-001", "aviva-002", "td-insurance-011", "desjardins-012"],
         "integrationType": "Portal",
         "features": ["Quote submission", "Document management"]
       },
       {
         "name": "CSIO Standards",
-        "supportedCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004"],
+        "supportedCarriers": ["intact-001", "aviva-002", "northbridge-003", "wawanesa-004", "td-insurance-011", "desjardins-012", "belair-023", "industrial-alliance-025"],
         "integrationType": "EDI/XML",
         "features": ["Data exchange", "eDocs", "Commercial lines standards"]
       }
@@ -768,25 +1812,35 @@
   "riskAppetiteMatrix": {
     "lowRisk": {
       "description": "Professional offices, low-hazard retail, business services",
-      "carriers": ["intact-001", "aviva-002", "wawanesa-004", "economical-005", "cooperators-007"],
+      "carriers": ["intact-001", "aviva-002", "wawanesa-004", "economical-005", "cooperators-007", "td-insurance-011", "desjardins-012", "belair-023", "industrial-alliance-025", "beneva-026"],
       "typicalPremium": "$500-$5,000"
     },
     "mediumRisk": {
       "description": "Light manufacturing, contractors, restaurants",
-      "carriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008"],
+      "carriers": ["intact-001", "northbridge-003", "wawanesa-004", "rsacanada-008", "travelers-013", "liberty-mutual-014", "temple-021", "echelon-022"],
       "typicalPremium": "$5,000-$25,000"
     },
     "highRisk": {
       "description": "Heavy construction, transportation, specialized manufacturing",
-      "carriers": ["northbridge-003", "chubb-006", "rsacanada-008", "sovereign-010"],
+      "carriers": ["northbridge-003", "chubb-006", "rsacanada-008", "sovereign-010", "travelers-013", "liberty-mutual-014", "zurich-016", "aig-017", "jevco-019"],
       "typicalPremium": "$25,000+"
+    },
+    "specialtyRisk": {
+      "description": "Unique risks, reinsurance needs, international operations",
+      "carriers": ["munich-re-027", "swiss-re-028", "lloyd's-029", "markel-030", "trisura-018"],
+      "typicalPremium": "Varies significantly"
+    },
+    "nonStandardRisk": {
+      "description": "High-risk businesses, poor loss history, new ventures",
+      "carriers": ["pembridge-015", "pafco-024", "echelon-022"],
+      "typicalPremium": "$500-$10,000"
     }
   },
   "metadata": {
     "lastUpdated": "2025-09-02",
     "source": "Public information compiled from carrier websites, industry reports, and broker resources",
     "disclaimer": "This data is for reference only. Actual carrier appetite, rates, and availability may vary. Always consult with carriers directly for current information.",
-    "totalCarriers": 10,
+    "totalCarriers": 30,
     "totalNAICSCodes": 30,
     "dataCompleteness": "Partial - Based on publicly available information"
   }
