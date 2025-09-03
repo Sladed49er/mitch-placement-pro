@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Carrier {
+  id                String            @id @default(uuid())
+  name              String
+  provinces         String[]
+  createdAt         DateTime          @default(now())
+  amBestRating      String
+  apiEnabled        Boolean           @default(false)
+  carrierId         String            @unique
+  commissionNew     Float
+  commissionRenewal Float
+  linesOfBusiness   String[]
+  maxRevenue        Float
+  minPremium        Float
+  mitchPartner      Boolean           @default(false)
+  responseTime      String
+  updatedAt         DateTime          @updatedAt
+  appetites         CarrierAppetite[]
+  placements        Placement[]
+}
+
+model CarrierAppetite {
+  id            String    @id @default(uuid())
+  carrierId     String
+  naicsCode     String
+  appetiteScore Int
+  notes         String?
+  carrier       Carrier   @relation(fields: [carrierId], references: [id])
+  naics         NAICSCode @relation(fields: [naicsCode], references: [code])
+
+  @@unique([carrierId, naicsCode])
+}
+
+model NAICSCode {
+  code        String            @id
+  description String
+  category    String
+  riskLevel   String
+  baseRate    Float
+  appetites   CarrierAppetite[]
+  placements  Placement[]
+}
+
+model Placement {
+  id               String    @id @default(uuid())
+  clientName       String
+  revenue          Float
+  status           String
+  createdAt        DateTime  @default(now())
+  agentNotes       String?
+  boundAt          DateTime?
+  carrierId        String?
+  contactEmail     String
+  contactPhone     String
+  employees        Int
+  estimatedPremium Float
+  lossHistory      String
+  matchScore       Int
+  naicsCode        String
+  province         String
+  quotedAt         DateTime?
+  submittedAt      DateTime?
+  updatedAt        DateTime  @updatedAt
+  yearsInBusiness  Int
+  carrier          Carrier?  @relation(fields: [carrierId], references: [id])
+  naics            NAICSCode @relation(fields: [naicsCode], references: [code])
+}
+
+model MarketIntel {
+  id              String   @id @default(uuid())
+  date            DateTime @default(now())
+  propertyTrend   Float
+  casualtyTrend   Float
+  cyberTrend      Float
+  autoTrend       Float
+  marketCondition String
+  notes           String?
+}

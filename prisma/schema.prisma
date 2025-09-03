@@ -8,79 +8,110 @@ datasource db {
 }
 
 model Carrier {
-  id                String            @id @default(uuid())
+  id                String   @id @default(cuid())
+  carrierId         String   @unique
   name              String
+  parentCompany     String?
+  amBestRating      String?
+  headquarters      String?
   provinces         String[]
-  createdAt         DateTime          @default(now())
-  amBestRating      String
-  apiEnabled        Boolean           @default(false)
-  carrierId         String            @unique
-  commissionNew     Float
-  commissionRenewal Float
-  linesOfBusiness   String[]
-  maxRevenue        Float
-  minPremium        Float
-  mitchPartner      Boolean           @default(false)
-  responseTime      String
-  updatedAt         DateTime          @updatedAt
-  appetites         CarrierAppetite[]
+  minPremium        Float?
+  maxRevenue        Float?
+  commissionNew     Float?
+  commissionRenewal Float?
+  responseTime      String?
+  apiEnabled        Boolean  @default(false)
+  apiDetails        Json?
+  partnerStatus     String?
+  specialties       String[]
+  products          Json?
+  underwritingGuidelines Json?
+  brokerPortal      Json?
+  contactInfo       Json?
+  
+  agencySettings    AgencyCarrierSetting[]
   placements        Placement[]
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([carrierId])
+  @@index([name])
 }
 
-model CarrierAppetite {
-  id            String    @id @default(uuid())
-  carrierId     String
-  naicsCode     String
-  appetiteScore Int
-  notes         String?
-  carrier       Carrier   @relation(fields: [carrierId], references: [id])
-  naics         NAICSCode @relation(fields: [naicsCode], references: [code])
-
-  @@unique([carrierId, naicsCode])
-}
-
-model NAICSCode {
-  code        String            @id
-  description String
-  category    String
-  riskLevel   String
-  baseRate    Float
-  appetites   CarrierAppetite[]
-  placements  Placement[]
+model AgencyCarrierSetting {
+  id                String   @id @default(cuid())
+  carrierId         String
+  carrier           Carrier  @relation(fields: [carrierId], references: [carrierId], onDelete: Cascade)
+  
+  agencyStatus      String   @default("not-appointed")
+  appointmentDate   DateTime?
+  
+  commissionNew     Float?
+  commissionRenewal Float?
+  volumeBonus       Float?
+  contingentBonus   Json?
+  
+  contacts          Json?
+  performance       Json?
+  appetiteNotes     Json?
+  systemAccess      Json?
+  notes             Json?
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  updatedBy         String?
+  
+  @@unique([carrierId])
+  @@index([agencyStatus])
 }
 
 model Placement {
-  id               String    @id @default(uuid())
-  clientName       String
-  revenue          Float
-  status           String
-  createdAt        DateTime  @default(now())
-  agentNotes       String?
-  boundAt          DateTime?
-  carrierId        String?
-  contactEmail     String
-  contactPhone     String
-  employees        Int
-  estimatedPremium Float
-  lossHistory      String
-  matchScore       Int
-  naicsCode        String
-  province         String
-  quotedAt         DateTime?
-  submittedAt      DateTime?
-  updatedAt        DateTime  @updatedAt
-  yearsInBusiness  Int
-  carrier          Carrier?  @relation(fields: [carrierId], references: [id])
-  naics            NAICSCode @relation(fields: [naicsCode], references: [code])
+  id                String   @id @default(cuid())
+  referenceNumber   String   @unique @default(cuid())
+  
+  businessName      String
+  postalCode        String
+  city              String
+  province          String
+  contactName       String
+  contactEmail      String
+  contactPhone      String
+  
+  businessType      String?
+  naicsCode         String?
+  naicsDescription  String?
+  revenue           Float?
+  employees         Int?
+  yearsInBusiness   Int?
+  
+  coverageType      String[]
+  effectiveDate     DateTime?
+  expiryDate        DateTime?
+  
+  selectedCarriers  String[]
+  carrierId         String?
+  carrier           Carrier? @relation(fields: [carrierId], references: [id])
+  
+  status            String   @default("draft")
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  createdBy         String?
+  
+  @@index([referenceNumber])
+  @@index([businessName])
+  @@index([status])
 }
 
-model MarketIntel {
-  id              String   @id @default(uuid())
-  date            DateTime @default(now())
-  propertyTrend   Float
-  casualtyTrend   Float
-  cyberTrend      Float
-  autoTrend       Float
-  marketCondition String
-  notes           String?
+model User {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  name              String?
+  role              String   @default("broker")
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@index([email])
 }
