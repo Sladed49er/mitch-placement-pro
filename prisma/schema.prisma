@@ -1,3 +1,6 @@
+// prisma/schema.prisma
+// INCREMENTAL UPDATE - Safe approach that preserves existing data
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -6,6 +9,10 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// ==========================================
+// EXISTING MODELS (Unchanged)
+// ==========================================
 
 model Carrier {
   id                String   @id @default(cuid())
@@ -66,10 +73,21 @@ model AgencyCarrierSetting {
   @@index([agencyStatus])
 }
 
+// ==========================================
+// UPDATED PLACEMENT MODEL (with optional user fields)
+// ==========================================
+
 model Placement {
   id                String   @id @default(cuid())
   referenceNumber   String   @unique @default(cuid())
   
+  // NEW: Optional user association (won't break existing records)
+  userId            String?  // Made optional for existing data
+  user              User?    @relation(fields: [userId], references: [id])
+  agencyId          String?
+  agency            Agency?  @relation(fields: [agencyId], references: [id])
+  
+  // Existing fields remain unchanged
   businessName      String
   postalCode        String
   city              String
@@ -95,23 +113,155 @@ model Placement {
   
   status            String   @default("draft")
   
+  // NEW: Optional AI and enhanced fields
+  aiPredictions     Json?
+  aiScore           Float?
+  matchResults      Json?
+  
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   createdBy         String?
   
+  // NEW: Relations
+  activities        ActivityLog[]
+  notes             Note[]
+  
   @@index([referenceNumber])
   @@index([businessName])
   @@index([status])
+  @@index([userId])
 }
+
+// ==========================================
+// ENHANCED USER MODEL (Updated from basic)
+// ==========================================
 
 model User {
   id                String   @id @default(cuid())
   email             String   @unique
   name              String?
+  password          String?  // Optional initially for existing records
   role              String   @default("broker")
+  
+  // NEW: Optional fields
+  agencyId          String?
+  agency            Agency?  @relation(fields: [agencyId], references: [id])
+  phone             String?
+  title             String?
+  isActive          Boolean  @default(true)
+  lastLogin         DateTime?
   
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   
+  // NEW: Relations
+  placements        Placement[]
+  activities        ActivityLog[]
+  savedSearches     SavedSearch[]
+  sessions          Session[]
+  notes             Note[]
+  
   @@index([email])
+  @@index([agencyId])
+}
+
+// ==========================================
+// NEW MODELS FOR AUTHENTICATION
+// ==========================================
+
+model Agency {
+  id              String   @id @default(cuid())
+  name            String
+  licenseNumber   String?  @unique
+  primaryContact  String?
+  phone           String?
+  email           String?
+  city            String?
+  province        String?
+  postalCode      String?
+  isActive        Boolean  @default(true)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  users           User[]
+  placements      Placement[]
+  
+  @@index([name])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model ActivityLog {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id])
+  placementId  String?
+  placement    Placement? @relation(fields: [placementId], references: [id])
+  action       String
+  details      Json?
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime  @default(now())
+  
+  @@index([userId])
+  @@index([placementId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+model SavedSearch {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  criteria    Json
+  lastUsed    DateTime @default(now())
+  useCount    Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+model Note {
+  id           String    @id @default(cuid())
+  userId       String
+  user         User      @relation(fields: [userId], references: [id])
+  placementId  String?
+  placement    Placement? @relation(fields: [placementId], references: [id])
+  content      String    @db.Text
+  type         String    @default("general")
+  isPrivate    Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  @@index([userId])
+  @@index([placementId])
+}
+
+// ==========================================
+// EXISTING NAICS MODEL (if you have it)
+// ==========================================
+
+model NAICS {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  description String
+  category    String?
+  riskLevel   String?
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([code])
+  @@index([category])
 }
