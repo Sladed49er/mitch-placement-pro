@@ -2,8 +2,8 @@
  * ============================================
  * FILE: /app/placement/page.tsx
  * LOCATION: Replace ENTIRE file at /app/placement/page.tsx
- * PURPOSE: Complete placement wizard with ComparativeRater integration
- * LAST UPDATED: Final working version
+ * PURPOSE: Complete placement wizard with mobile-responsive carrier selection
+ * LAST UPDATED: Final version with all mobile fixes
  * ============================================
  */
 
@@ -445,9 +445,9 @@ export default function PlacementPage() {
     />
   );
 
-  // Render carrier selection step with mobile fixes
+  // Render carrier selection step with MOBILE FIXES
   const renderCarrierSelection = () => (
-    <div className="space-y-4">
+    <div className="space-y-4 max-w-full overflow-x-hidden">
       <h2 className="text-xl sm:text-2xl font-bold mb-4">Select Carriers</h2>
       
       {/* AI Predictions Component */}
@@ -478,11 +478,11 @@ export default function PlacementPage() {
             Found {carriers.length} matching carrier{carriers.length !== 1 ? 's' : ''}. 
             Select the carriers you want to submit to:
           </p>
-          <div className="space-y-3">
+          <div className="space-y-3 pb-24">
             {carriers.map((carrier) => (
               <div
                 key={carrier.id}
-                className={`p-3 sm:p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                className={`p-3 border-2 rounded-lg cursor-pointer transition-all overflow-hidden ${
                   selectedCarriers.includes(carrier.id)
                     ? 'border-blue-500 bg-blue-50'
                     : 'border-gray-200 hover:border-gray-300'
@@ -490,7 +490,7 @@ export default function PlacementPage() {
                 onClick={() => handleCarrierSelection(carrier.id)}
               >
                 {/* Mobile-optimized header with carrier name and checkbox */}
-                <div className="flex items-start gap-2 sm:gap-3 mb-2">
+                <div className="flex items-start gap-2 mb-2">
                   <input
                     type="checkbox"
                     checked={selectedCarriers.includes(carrier.id)}
@@ -498,26 +498,26 @@ export default function PlacementPage() {
                     className="w-4 h-4 text-blue-600 mt-1 flex-shrink-0"
                     onClick={(e) => e.stopPropagation()}
                   />
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-base sm:text-lg break-words">
+                  <div className="flex-1 min-w-0 overflow-hidden">
+                    <h3 className="font-semibold text-base break-words">
                       {carrier.name}
                     </h3>
                     
                     {/* Badges container - wraps on mobile */}
                     <div className="flex flex-wrap gap-1 mt-1">
                       {carrier.recommended && (
-                        <span className="inline-block px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded font-semibold">
+                        <span className="inline-flex px-1.5 py-0.5 bg-green-100 text-green-700 text-xs rounded font-semibold">
                           RECOMMENDED
                         </span>
                       )}
                       {carrier.apiEnabled && (
-                        <span className="inline-block px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">
-                          API Ready
+                        <span className="inline-flex px-1.5 py-0.5 bg-blue-100 text-blue-700 text-xs rounded">
+                          API
                         </span>
                       )}
                       {carrier.partnerStatus === 'Preferred' && (
-                        <span className="inline-block px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">
-                          Preferred
+                        <span className="inline-flex px-1.5 py-0.5 bg-purple-100 text-purple-700 text-xs rounded">
+                          Partner
                         </span>
                       )}
                     </div>
@@ -525,7 +525,7 @@ export default function PlacementPage() {
                 </div>
 
                 {/* Mobile-responsive details grid */}
-                <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm mt-3">
+                <div className="grid grid-cols-2 gap-2 text-xs mt-3">
                   {carrier.amBestRating && (
                     <div className="truncate">
                       <span className="text-gray-500">AM Best:</span>
@@ -543,16 +543,14 @@ export default function PlacementPage() {
                   {carrier.minPremium && (
                     <div className="truncate">
                       <span className="text-gray-500">Min:</span>
-                      <span className="ml-1 font-medium">${carrier.minPremium.toLocaleString()}</span>
+                      <span className="ml-1 font-medium">${(carrier.minPremium/1000).toFixed(0)}K</span>
                     </div>
                   )}
                   
                   {carrier.maxRevenue && (
                     <div className="truncate">
-                      <span className="text-gray-500">Max Rev:</span>
-                      <span className="ml-1 font-medium">
-                        ${(carrier.maxRevenue / 1000000).toFixed(0)}M
-                      </span>
+                      <span className="text-gray-500">Max:</span>
+                      <span className="ml-1 font-medium">${(carrier.maxRevenue / 1000000).toFixed(0)}M</span>
                     </div>
                   )}
 
@@ -565,7 +563,7 @@ export default function PlacementPage() {
                   
                   {carrier.commissionRenewal && (
                     <div className="truncate">
-                      <span className="text-gray-500">Renewal:</span>
+                      <span className="text-gray-500">Renew:</span>
                       <span className="ml-1 font-medium">{carrier.commissionRenewal}%</span>
                     </div>
                   )}
@@ -573,21 +571,20 @@ export default function PlacementPage() {
 
                 {/* Specialties - now wrapping properly */}
                 {carrier.specialties && carrier.specialties.length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-gray-100">
-                    <div className="text-xs text-gray-500 mb-1">Specialties:</div>
+                  <div className="mt-2 pt-2 border-t border-gray-100">
                     <div className="flex flex-wrap gap-1">
-                      {carrier.specialties.slice(0, 4).map((specialty, index) => (
+                      {carrier.specialties.slice(0, 3).map((specialty, index) => (
                         <span 
                           key={index} 
-                          className="inline-block px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded truncate max-w-[120px]"
+                          className="inline-flex px-1.5 py-0.5 bg-gray-100 text-gray-700 text-xs rounded truncate max-w-[80px]"
                           title={specialty}
                         >
                           {specialty}
                         </span>
                       ))}
-                      {carrier.specialties.length > 4 && (
-                        <span className="inline-block px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded">
-                          +{carrier.specialties.length - 4}
+                      {carrier.specialties.length > 3 && (
+                        <span className="inline-flex px-1.5 py-0.5 bg-gray-100 text-gray-500 text-xs rounded">
+                          +{carrier.specialties.length - 3}
                         </span>
                       )}
                     </div>
@@ -597,13 +594,13 @@ export default function PlacementPage() {
             ))}
           </div>
           
-          <div className="sticky bottom-0 bg-white border-t pt-4 mt-4 -mx-4 px-4 sm:mx-0 sm:px-0">
-            <div className="flex flex-col sm:flex-row gap-2">
+          <div className="fixed bottom-0 left-0 right-0 bg-white border-t pt-3 pb-3 px-4 z-50">
+            <div className="flex gap-2 max-w-4xl mx-auto">
               <button
                 onClick={handlePreviousStep}
-                className="w-full sm:w-auto px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50"
+                className="px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50"
               >
-                Previous
+                Back
               </button>
               <button
                 onClick={() => {
@@ -614,9 +611,9 @@ export default function PlacementPage() {
                   handleSubmitPlacement();
                 }}
                 disabled={selectedCarriers.length === 0 || loading}
-                className="w-full sm:flex-1 py-3 bg-blue-600 text-white rounded-lg font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors"
+                className="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 transition-colors"
               >
-                Continue with {selectedCarriers.length} Carrier{selectedCarriers.length !== 1 ? 's' : ''}
+                Submit to {selectedCarriers.length} Carrier{selectedCarriers.length !== 1 ? 's' : ''}
               </button>
             </div>
           </div>
