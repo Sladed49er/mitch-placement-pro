@@ -31,14 +31,13 @@ export async function GET(request: Request) {
       orderBy: { createdAt: 'desc' }
     });
 
-    // Convert to CSV
+    // Convert to CSV - only include fields that exist in the schema
     const headers = [
       'Reference Number',
       'Created Date',
       'Status',
       'User Email',
       'User Name',
-      'Client Name',
       'Business Name',
       'Address',
       'City',
@@ -57,16 +56,15 @@ export async function GET(request: Request) {
     ];
 
     const rows = placements.map(p => [
-      p.referenceNumber,
+      p.referenceNumber || '',
       new Date(p.createdAt).toLocaleDateString(),
-      p.status,
-      p.user?.email || '',  // Fixed: Added optional chaining
-      p.user?.name || '',    // Fixed: Added optional chaining
-      p.clientName || '',
-      p.businessName,
+      p.status || '',
+      p.user?.email || '',
+      p.user?.name || '',
+      p.businessName || '',
       p.address || '',
-      p.city,
-      p.province,
+      p.city || '',
+      p.province || '',
       p.postalCode || '',
       p.phone || '',
       p.email || '',
