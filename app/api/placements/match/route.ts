@@ -6,43 +6,61 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { clientInfo, businessDetails } = body;
     
-    console.log('Matching request received:', {
-      province: clientInfo.province,
-      industry: businessDetails.industry,
-      revenue: businessDetails.annualRevenue,
-      employees: businessDetails.numberOfEmployees
-    });
+    console.log('=== MATCHING REQUEST ===');
+    console.log('Client Province:', clientInfo.province);
+    console.log('Industry Code:', businessDetails.industry);
+    console.log('Revenue:', businessDetails.annualRevenue);
+    console.log('Employees:', businessDetails.numberOfEmployees);
+    console.log('Years in Business:', businessDetails.yearsInBusiness);
 
     // Get all carriers
     const allCarriers = carriersData.carriers;
+    console.log('Total carriers in database:', allCarriers.length);
     
     // Get NAICS code information for the selected industry
     const selectedNAICS = carriersData.naicsCodes.find(
       code => code.code === businessDetails.industry
     );
     
-    console.log('Selected NAICS:', selectedNAICS?.code, selectedNAICS?.description);
+    if (selectedNAICS) {
+      console.log('Selected NAICS:', selectedNAICS.code, '-', selectedNAICS.description);
+      console.log('Accepted by carriers:', selectedNAICS.acceptedByCarriers);
+    } else {
+      console.log('WARNING: NAICS code not found in database');
+    }
+
+    // Parse revenue (remove commas and convert to number)
+    const revenue = parseFloat(String(businessDetails.annualRevenue).replace(/,/g, ''));
+    console.log('Parsed revenue:', revenue);
 
     // Filter and score carriers
-    const matchedCarriers = allCarriers
+    let matchedCarriers = allCarriers
       .filter(carrier => {
-        // Province is already in code format (e.g., "ON") from the form
+        // Check province match
         const provinceMatch = carrier.provinces.includes(clientInfo.province);
         
-        // Check if carrier accepts this NAICS code
-        const naicsMatch = selectedNAICS ? 
-          selectedNAICS.acceptedByCarriers.includes(carrier.id) : 
-          false; // If NAICS not found, don't match
+        // Check NAICS acceptance - be more lenient
+        let naicsMatch = false;
+        if (selectedNAICS) {
+          naicsMatch = selectedNAICS.acceptedByCarriers.includes(carrier.id);
+        } else {
+          // If NAICS not found, still show some carriers
+          naicsMatch = true;
+        }
         
-        // Check revenue limits (remove commas from formatted number)
-        const revenue = parseFloat(businessDetails.annualRevenue.replace(/,/g, ''));
-        const revenueMatch = !isNaN(revenue) && revenue <= carrier.maxRevenue;
+        // Check revenue limits
+        const revenueMatch = !revenue || isNaN(revenue) || revenue <= carrier.maxRevenue;
         
-        // Check minimum premium (could enhance this with actual premium calculation)
-        const estimatedPremium = revenue * 0.01; // Rough estimate: 1% of revenue
-        const meetsMinPremium = estimatedPremium >= carrier.minPremium;
+        // Check minimum premium - be more lenient
+        const estimatedPremium = revenue * 0.005; // 0.5% of revenue as rough estimate
+        const meetsMinPremium = !revenue || isNaN(revenue) || estimatedPremium >= carrier.minPremium || carrier.minPremium <= 1000;
         
-        console.log(`${carrier.name}: Province=${provinceMatch}, NAICS=${naicsMatch}, Revenue=${revenueMatch}, MinPrem=${meetsMinPremium}`);
+        console.log(`Carrier: ${carrier.name}`);
+        console.log(`  - Province match: ${provinceMatch} (looking for ${clientInfo.province} in ${carrier.provinces.join(', ')})`);
+        console.log(`  - NAICS match: ${naicsMatch}`);
+        console.log(`  - Revenue match: ${revenueMatch} (${revenue} <= ${carrier.maxRevenue})`);
+        console.log(`  - Min premium match: ${meetsMinPremium} (estimated ${estimatedPremium} >= ${carrier.minPremium})`);
+        console.log(`  - PASSES: ${provinceMatch && naicsMatch && revenueMatch && meetsMinPremium}`);
         
         return provinceMatch && naicsMatch && revenueMatch && meetsMinPremium;
       })
@@ -53,13 +71,15 @@ export async function POST(request: Request) {
         // Province coverage bonus (already filtered, so all get this)
         score += 20;
         
-        // Industry specialization bonus - check if carrier specializes in this category
+        // Industry specialization bonus
         if (selectedNAICS && carrier.specialties) {
-          // Check for exact specialty match
-          const hasSpecialty = carrier.specialties.some(specialty => 
-            selectedNAICS.category.toLowerCase().includes(specialty.toLowerCase()) ||
-            specialty.toLowerCase().includes(selectedNAICS.category.toLowerCase())
-          );
+          const hasSpecialty = carrier.specialties.some(specialty => {
+            const specialtyLower = specialty.toLowerCase();
+            const categoryLower = selectedNAICS.category.toLowerCase();
+            return specialtyLower.includes(categoryLower) || 
+                   categoryLower.includes(specialtyLower) ||
+                   selectedNAICS.description.toLowerCase().includes(specialtyLower);
+          });
           if (hasSpecialty) {
             score += 15;
           }
@@ -101,6 +121,8 @@ export async function POST(request: Request) {
         if (!isNaN(yearsInBusiness)) {
           if (yearsInBusiness >= carrier.underwritingGuidelines.minYearsInBusiness) {
             score += 5;
+          } else if (yearsInBusiness === carrier.underwritingGuidelines.minYearsInBusiness - 1) {
+            score += 0; // Close enough, neutral
           } else {
             score -= 10;
           }
@@ -120,26 +142,41 @@ export async function POST(request: Request) {
           }
         }
         
-        // Revenue size bonus - carriers often prefer certain revenue ranges
-        const revenue = parseFloat(businessDetails.annualRevenue.replace(/,/g, ''));
+        // Revenue size bonus
         if (!isNaN(revenue)) {
-          if (revenue >= 1000000 && revenue <= 10000000) {
+          if (revenue >= 500000 && revenue <= 10000000) {
             score += 5; // Sweet spot for most carriers
-          } else if (revenue < 500000) {
-            score -= 5; // May be too small for some carriers
+          } else if (revenue < 100000) {
+            score -= 5; // May be too small
+          } else if (revenue > 50000000) {
+            score -= 5; // May need specialty carrier
           }
         }
         
         return {
           ...carrier,
-          matchScore: Math.min(100, Math.max(0, score)) // Cap between 0-100
+          matchScore: Math.min(100, Math.max(0, score))
         };
       })
-      .sort((a, b) => b.matchScore - a.matchScore); // Sort by score descending
+      .sort((a, b) => b.matchScore - a.matchScore);
     
-    console.log(`Found ${matchedCarriers.length} matching carriers`);
+    console.log(`=== RESULTS: Found ${matchedCarriers.length} matching carriers ===`);
     
-    // Return matched carriers even if empty array
+    // If no exact matches, provide some fallback carriers based on province only
+    if (matchedCarriers.length === 0) {
+      console.log('No exact matches found, showing carriers for province only...');
+      
+      matchedCarriers = allCarriers
+        .filter(carrier => carrier.provinces.includes(clientInfo.province))
+        .map(carrier => ({
+          ...carrier,
+          matchScore: 40 // Lower score for partial matches
+        }))
+        .slice(0, 3); // Show top 3 as fallback
+        
+      console.log(`Showing ${matchedCarriers.length} fallback carriers for province ${clientInfo.province}`);
+    }
+    
     return NextResponse.json(matchedCarriers);
     
   } catch (error) {
