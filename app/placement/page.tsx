@@ -387,18 +387,19 @@ export default function PlacementWizard() {
             value={clientInfo.province}
             onChange={(e) => setClientInfo({...clientInfo, province: e.target.value})}
           >
-            <option value="AB">Alberta</option>
+            <option value="">Select Province</option>
+            <option value="ON">Ontario</option>
+            <option value="QC">Quebec</option>
             <option value="BC">British Columbia</option>
+            <option value="AB">Alberta</option>
             <option value="MB">Manitoba</option>
+            <option value="SK">Saskatchewan</option>
+            <option value="NS">Nova Scotia</option>
             <option value="NB">New Brunswick</option>
             <option value="NL">Newfoundland and Labrador</option>
-            <option value="NT">Northwest Territories</option>
-            <option value="NS">Nova Scotia</option>
-            <option value="NU">Nunavut</option>
-            <option value="ON">Ontario</option>
             <option value="PE">Prince Edward Island</option>
-            <option value="QC">Quebec</option>
-            <option value="SK">Saskatchewan</option>
+            <option value="NT">Northwest Territories</option>
+            <option value="NU">Nunavut</option>
             <option value="YT">Yukon</option>
           </select>
         </div>
