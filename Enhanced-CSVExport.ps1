@@ -1,3 +1,60 @@
+# Enhanced-CSVExport.ps1
+# Creates a detailed CSV export with all placement fields
+
+Write-Host "📊 Enhancing CSV Export with all details..." -ForegroundColor Cyan
+
+# First, let's create a test script to check what fields exist
+Write-Host "📝 Creating field discovery script..." -ForegroundColor Yellow
+
+$fieldDiscoveryScript = @'
+// scripts/check-placement-fields.js
+// Run this to see all available fields in a placement
+
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+async function checkFields() {
+  try {
+    // Get one placement to see all fields
+    const placement = await prisma.placement.findFirst({
+      include: {
+        user: true
+      }
+    });
+    
+    if (placement) {
+      console.log('Available fields in Placement model:');
+      console.log('=====================================');
+      Object.keys(placement).forEach(key => {
+        const value = placement[key];
+        const type = typeof value;
+        console.log(`- ${key}: ${type} (sample: ${JSON.stringify(value)?.substring(0, 50)}...)`);
+      });
+    } else {
+      console.log('No placements found. Create one first to see fields.');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+checkFields();
+'@
+
+$fieldDiscoveryScript | Out-File -FilePath "scripts\check-placement-fields.js" -Encoding UTF8
+
+Write-Host "✅ Field discovery script created!" -ForegroundColor Green
+Write-Host ""
+Write-Host "🔍 Run this to see all available fields:" -ForegroundColor Cyan
+Write-Host "   node scripts/check-placement-fields.js" -ForegroundColor White
+Write-Host ""
+
+# Now create the enhanced CSV export
+Write-Host "📝 Creating enhanced CSV export..." -ForegroundColor Yellow
+
+$enhancedCsvExportContent = @'
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
@@ -204,3 +261,29 @@ export async function GET(request: Request) {
     );
   }
 }
+'@
+
+$enhancedCsvExportContent | Out-File -FilePath "app\api\placements\export\route.ts" -Encoding UTF8
+
+Write-Host "✅ Enhanced CSV export created!" -ForegroundColor Green
+Write-Host ""
+Write-Host "📊 The enhanced export now attempts to include:" -ForegroundColor Cyan
+Write-Host "   - All business details entered" -ForegroundColor White
+Write-Host "   - Complete location information" -ForegroundColor White
+Write-Host "   - Industry codes and descriptions" -ForegroundColor White
+Write-Host "   - Selected carriers list" -ForegroundColor White
+Write-Host "   - AI predictions (if any)" -ForegroundColor White
+Write-Host "   - All metadata (dates, status, reference)" -ForegroundColor White
+Write-Host "   - Any additional fields that exist" -ForegroundColor White
+Write-Host ""
+Write-Host "🔧 To deploy:" -ForegroundColor Cyan
+Write-Host "   1. First, check what fields exist:" -ForegroundColor Yellow
+Write-Host "      node scripts/check-placement-fields.js" -ForegroundColor Gray
+Write-Host ""
+Write-Host "   2. Then deploy the enhanced export:" -ForegroundColor Yellow
+Write-Host "      git add ." -ForegroundColor Gray
+Write-Host "      git commit -m 'Add detailed CSV export with all placement fields'" -ForegroundColor Gray
+Write-Host "      git push origin main" -ForegroundColor Gray
+Write-Host ""
+Write-Host "💡 Note: Fields that don't exist will show as empty columns." -ForegroundColor Yellow
+Write-Host "   This way the export won't break but will include everything available." -ForegroundColor Yellow
