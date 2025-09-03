@@ -1,0 +1,241 @@
+// FILE: app/api/admin/placements/[id]/notes/route.ts
+import { NextResponse } from 'next/server';
+import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+
+// GET all notes for a placement
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await auth();
+    
+    if (!session?.user?.id || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const notes = await prisma.note.findMany({
+      where: { placementId: params.id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
+
+    return NextResponse.json(notes);
+  } catch (error) {
+    console.error('Error fetching notes:', error);
+    return NextResponse.json({ error: 'Failed to fetch notes' }, { status: 500 });
+  }
+}
+
+// POST add note to placement
+export async function POST(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await auth();
+    
+    if (!session?.user?.id || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { content, type = 'general', isPrivate = false } = body;
+
+    if (!content || content.trim().length === 0) {
+      return NextResponse.json({ error: 'Note content is required' }, { status: 400 });
+    }
+
+    // Verify placement exists
+    const placement = await prisma.placement.findUnique({
+      where: { id: params.id },
+      select: { id: true, referenceNumber: true }
+    });
+
+    if (!placement) {
+      return NextResponse.json({ error: 'Placement not found' }, { status: 404 });
+    }
+
+    const note = await prisma.note.create({
+      data: {
+        userId: session.user.id,
+        placementId: params.id,
+        content: content.trim(),
+        type,
+        isPrivate
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
+    });
+
+    // Log the activity
+    await prisma.activityLog.create({
+      data: {
+        userId: session.user.id,
+        placementId: params.id,
+        action: 'add_note',
+        details: { 
+          noteId: note.id,
+          noteType: type,
+          isPrivate
+        }
+      }
+    });
+
+    return NextResponse.json(note);
+  } catch (error) {
+    console.error('Error adding note:', error);
+    return NextResponse.json({ error: 'Failed to add note' }, { status: 500 });
+  }
+}
+
+// PUT update note
+export async function PUT(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await auth();
+    
+    if (!session?.user?.id || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const { noteId, content, type, isPrivate } = body;
+
+    if (!noteId) {
+      return NextResponse.json({ error: 'Note ID is required' }, { status: 400 });
+    }
+
+    // Check if note exists and belongs to this placement
+    const existingNote = await prisma.note.findFirst({
+      where: {
+        id: noteId,
+        placementId: params.id
+      }
+    });
+
+    if (!existingNote) {
+      return NextResponse.json({ error: 'Note not found' }, { status: 404 });
+    }
+
+    // Only allow admin or note author to edit
+    if (existingNote.userId !== session.user.id && session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized to edit this note' }, { status: 403 });
+    }
+
+    const updateData: any = {};
+    if (content !== undefined) updateData.content = content.trim();
+    if (type !== undefined) updateData.type = type;
+    if (isPrivate !== undefined) updateData.isPrivate = isPrivate;
+
+    const note = await prisma.note.update({
+      where: { id: noteId },
+      data: updateData,
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
+    });
+
+    // Log the activity
+    await prisma.activityLog.create({
+      data: {
+        userId: session.user.id,
+        placementId: params.id,
+        action: 'update_note',
+        details: { 
+          noteId: note.id,
+          updatedFields: Object.keys(updateData)
+        }
+      }
+    });
+
+    return NextResponse.json(note);
+  } catch (error) {
+    console.error('Error updating note:', error);
+    return NextResponse.json({ error: 'Failed to update note' }, { status: 500 });
+  }
+}
+
+// DELETE note
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const session = await auth();
+    
+    if (!session?.user?.id || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const noteId = searchParams.get('noteId');
+
+    if (!noteId) {
+      return NextResponse.json({ error: 'Note ID is required' }, { status: 400 });
+    }
+
+    // Check if note exists and belongs to this placement
+    const existingNote = await prisma.note.findFirst({
+      where: {
+        id: noteId,
+        placementId: params.id
+      }
+    });
+
+    if (!existingNote) {
+      return NextResponse.json({ error: 'Note not found' }, { status: 404 });
+    }
+
+    // Only allow admin or note author to delete
+    if (existingNote.userId !== session.user.id && session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized to delete this note' }, { status: 403 });
+    }
+
+    await prisma.note.delete({
+      where: { id: noteId }
+    });
+
+    // Log the activity
+    await prisma.activityLog.create({
+      data: {
+        userId: session.user.id,
+        placementId: params.id,
+        action: 'delete_note',
+        details: { 
+          deletedNoteId: noteId,
+          noteType: existingNote.type
+        }
+      }
+    });
+
+    return NextResponse.json({ message: 'Note deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting note:', error);
+    return NextResponse.json({ error: 'Failed to delete note' }, { status: 500 });
+  }
+}
