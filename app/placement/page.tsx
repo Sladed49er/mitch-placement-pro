@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import postalCodesData from '@/data/postal-codes.json';
 
 interface ClientInfo {
   businessName: string;
@@ -61,6 +62,34 @@ interface Carrier {
   contactInfo?: any;
 }
 
+// Common Canadian cities by province - defined at the top level
+const citiesByProvince: { [key: string]: string[] } = {
+  'ON': ['Toronto', 'Ottawa', 'Mississauga', 'Hamilton', 'London', 'Kitchener', 'Windsor', 'Barrie', 'Kingston', 'Guelph'],
+  'QC': ['Montreal', 'Quebec City', 'Laval', 'Gatineau', 'Longueuil', 'Sherbrooke', 'Saguenay', 'Trois-Rivières'],
+  'BC': ['Vancouver', 'Surrey', 'Victoria', 'Burnaby', 'Richmond', 'Kelowna', 'Kamloops', 'Nanaimo'],
+  'AB': ['Calgary', 'Edmonton', 'Red Deer', 'Lethbridge', 'Medicine Hat', 'Fort McMurray', 'Grande Prairie'],
+  'MB': ['Winnipeg', 'Brandon', 'Steinbach', 'Thompson', 'Portage la Prairie'],
+  'SK': ['Saskatoon', 'Regina', 'Prince Albert', 'Moose Jaw', 'Swift Current'],
+  'NS': ['Halifax', 'Dartmouth', 'Sydney', 'Truro', 'New Glasgow', 'Glace Bay'],
+  'NB': ['Moncton', 'Saint John', 'Fredericton', 'Dieppe', 'Miramichi'],
+  'NL': ['St. John\'s', 'Mount Pearl', 'Corner Brook', 'Conception Bay South', 'Grand Falls-Windsor'],
+  'PE': ['Charlottetown', 'Summerside', 'Stratford', 'Cornwall'],
+  'NT': ['Yellowknife', 'Hay River', 'Inuvik', 'Fort Smith'],
+  'NU': ['Iqaluit', 'Rankin Inlet', 'Arviat', 'Baker Lake'],
+  'YT': ['Whitehorse', 'Dawson City', 'Watson Lake']
+};
+
+// Lookup city and province from postal code
+const lookupPostalCode = (postalCode: string): { province: string; city: string } | null => {
+  const cleaned = postalCode.replace(/\s/g, '').toUpperCase();
+  if (cleaned.length >= 3) {
+    const prefix = cleaned.substring(0, 3);
+    // Access the postalCodes object from the imported data
+    return (postalCodesData as any).postalCodes[prefix] || null;
+  }
+  return null;
+};
+
 export default function PlacementWizard() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
@@ -69,6 +98,7 @@ export default function PlacementWizard() {
   const [naicsCodes, setNaicsCodes] = useState<any[]>([]);
   const [carriers, setCarriers] = useState<Carrier[]>([]);
   const [selectedCarriers, setSelectedCarriers] = useState<string[]>([]);
+  const [postalCodeInfo, setPostalCodeInfo] = useState<string>('');
   
   const [clientInfo, setClientInfo] = useState<ClientInfo>({
     businessName: '',
@@ -78,7 +108,7 @@ export default function PlacementWizard() {
     phone: '',
     address: '',
     city: '',
-    province: 'ON',
+    province: '',
     postalCode: ''
   });
   
@@ -137,6 +167,52 @@ export default function PlacementWizard() {
     }
   };
 
+  // Validate Canadian postal code format and province match
+  const validatePostalCode = (postalCode: string, province: string): { valid: boolean; message?: string } => {
+    const cleaned = postalCode.replace(/\s/g, '');
+    
+    // Check format: A1A 1A1
+    const postalCodeRegex = /^[A-Z]\d[A-Z]\d[A-Z]\d$/;
+    if (!postalCodeRegex.test(cleaned)) {
+      return { valid: false, message: 'Invalid postal code format (e.g., M5V 3A8)' };
+    }
+    
+    // First letter indicates province/region
+    const firstLetter = cleaned[0];
+    const provinceMap: { [key: string]: string[] } = {
+      'NL': ['A'],
+      'NS': ['B'],
+      'PE': ['C'],
+      'NB': ['E'],
+      'QC': ['G', 'H', 'J'],
+      'ON': ['K', 'L', 'M', 'N', 'P'],
+      'MB': ['R'],
+      'SK': ['S'],
+      'AB': ['T'],
+      'BC': ['V'],
+      'NT': ['X'],
+      'NU': ['X'],
+      'YT': ['Y']
+    };
+    
+    const validLetters = provinceMap[province] || [];
+    if (!validLetters.includes(firstLetter)) {
+      const expectedProvinces = Object.entries(provinceMap)
+        .filter(([_, letters]) => letters.includes(firstLetter))
+        .map(([prov, _]) => prov);
+      
+      if (expectedProvinces.length > 0) {
+        return { 
+          valid: false, 
+          message: `Postal code ${cleaned} is for ${expectedProvinces.join(' or ')}, not ${province}` 
+        };
+      }
+      return { valid: false, message: 'Invalid postal code for selected province' };
+    }
+    
+    return { valid: true };
+  };
+
   // Format currency
   const formatCurrency = (value: string) => {
     // Remove all non-digits
@@ -155,7 +231,30 @@ export default function PlacementWizard() {
 
   const handlePostalCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatPostalCode(e.target.value);
-    setClientInfo({...clientInfo, postalCode: formatted});
+    
+    // Auto-populate city and province if we find a match
+    const locationData = lookupPostalCode(formatted);
+    if (locationData) {
+      setClientInfo(prev => ({
+        ...prev,
+        postalCode: formatted,
+        province: locationData.province,
+        city: locationData.city
+      }));
+      setPostalCodeInfo(`✓ ${locationData.city}, ${locationData.province}`);
+    } else {
+      setClientInfo({...clientInfo, postalCode: formatted});
+      if (formatted.length >= 3) {
+        setPostalCodeInfo('Postal code not recognized - please verify city and province');
+      } else {
+        setPostalCodeInfo('');
+      }
+    }
+    
+    // Clear error if they're typing
+    if (error && error.includes('postal code')) {
+      setError('');
+    }
   };
 
   const handleRevenueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,14 +263,53 @@ export default function PlacementWizard() {
   };
 
   const validateStep1 = () => {
-    return clientInfo.businessName && 
-           clientInfo.firstName && 
-           clientInfo.lastName && 
-           clientInfo.email && 
-           clientInfo.phone && 
-           clientInfo.address && 
-           clientInfo.city && 
-           clientInfo.postalCode;
+    // Check all required fields are filled
+    if (!clientInfo.businessName || 
+        !clientInfo.firstName || 
+        !clientInfo.lastName || 
+        !clientInfo.email || 
+        !clientInfo.phone || 
+        !clientInfo.address || 
+        !clientInfo.city || 
+        !clientInfo.province ||
+        !clientInfo.postalCode) {
+      setError('Please fill in all required fields');
+      return false;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(clientInfo.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    
+    // Validate phone number (should have 10 digits)
+    const phoneDigits = clientInfo.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 10) {
+      setError('Please enter a valid 10-digit phone number');
+      return false;
+    }
+    
+    // Validate postal code
+    const postalValidation = validatePostalCode(clientInfo.postalCode, clientInfo.province);
+    if (!postalValidation.valid) {
+      setError(postalValidation.message || 'Invalid postal code');
+      return false;
+    }
+    
+    // Validate city matches province (warning only)
+    const validCities = citiesByProvince[clientInfo.province] || [];
+    const cityMatch = validCities.some(city => 
+      city.toLowerCase() === clientInfo.city.toLowerCase()
+    );
+    
+    if (!cityMatch && clientInfo.city) {
+      // Just a warning - don't block submission for smaller cities
+      console.warn(`Note: ${clientInfo.city} may not be a major city in ${clientInfo.province}`);
+    }
+    
+    return true;
   };
 
   const validateStep2 = () => {
@@ -183,7 +321,6 @@ export default function PlacementWizard() {
 
   const handleNext = () => {
     if (currentStep === 1 && !validateStep1()) {
-      setError('Please fill in all required fields');
       return;
     }
     setError('');
@@ -297,6 +434,91 @@ export default function PlacementWizard() {
         />
       </div>
 
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Postal Code <span className="text-red-500">*</span>
+          {postalCodeInfo && (
+            <span className={`ml-2 text-xs ${postalCodeInfo.startsWith('✓') ? 'text-green-600' : 'text-amber-600'}`}>
+              {postalCodeInfo}
+            </span>
+          )}
+        </label>
+        <input
+          type="text"
+          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={clientInfo.postalCode}
+          onChange={handlePostalCodeChange}
+          placeholder="M5V 3A8"
+          maxLength={7}
+        />
+        <p className="text-xs text-gray-500 mt-1">Enter postal code to auto-fill city and province</p>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            City <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={clientInfo.city}
+            onChange={(e) => setClientInfo({...clientInfo, city: e.target.value})}
+            placeholder={clientInfo.province ? `e.g., ${citiesByProvince[clientInfo.province]?.[0] || 'City Name'}` : 'City Name'}
+            list="city-suggestions"
+          />
+          {clientInfo.province && citiesByProvince[clientInfo.province] && (
+            <datalist id="city-suggestions">
+              {citiesByProvince[clientInfo.province].map(city => (
+                <option key={city} value={city} />
+              ))}
+            </datalist>
+          )}
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">
+            Province <span className="text-red-500">*</span>
+          </label>
+          <select
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={clientInfo.province}
+            onChange={(e) => {
+              setClientInfo({...clientInfo, province: e.target.value});
+              setError(''); // Clear any postal code errors when province changes
+              setPostalCodeInfo(''); // Clear postal code info
+            }}
+          >
+            <option value="">Select Province</option>
+            <option value="ON">Ontario</option>
+            <option value="QC">Quebec</option>
+            <option value="BC">British Columbia</option>
+            <option value="AB">Alberta</option>
+            <option value="MB">Manitoba</option>
+            <option value="SK">Saskatchewan</option>
+            <option value="NS">Nova Scotia</option>
+            <option value="NB">New Brunswick</option>
+            <option value="NL">Newfoundland and Labrador</option>
+            <option value="PE">Prince Edward Island</option>
+            <option value="NT">Northwest Territories</option>
+            <option value="NU">Nunavut</option>
+            <option value="YT">Yukon</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Street Address <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          value={clientInfo.address}
+          onChange={(e) => setClientInfo({...clientInfo, address: e.target.value})}
+          placeholder="123 Main Street"
+        />
+      </div>
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">
@@ -348,72 +570,6 @@ export default function PlacementWizard() {
             onChange={handlePhoneChange}
             placeholder="(416) 555-0123"
             maxLength={14}
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          Street Address <span className="text-red-500">*</span>
-        </label>
-        <input
-          type="text"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={clientInfo.address}
-          onChange={(e) => setClientInfo({...clientInfo, address: e.target.value})}
-          placeholder="123 Main Street"
-        />
-      </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            City <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={clientInfo.city}
-            onChange={(e) => setClientInfo({...clientInfo, city: e.target.value})}
-            placeholder="Toronto"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Province <span className="text-red-500">*</span>
-          </label>
-          <select
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={clientInfo.province}
-            onChange={(e) => setClientInfo({...clientInfo, province: e.target.value})}
-          >
-            <option value="">Select Province</option>
-            <option value="ON">Ontario</option>
-            <option value="QC">Quebec</option>
-            <option value="BC">British Columbia</option>
-            <option value="AB">Alberta</option>
-            <option value="MB">Manitoba</option>
-            <option value="SK">Saskatchewan</option>
-            <option value="NS">Nova Scotia</option>
-            <option value="NB">New Brunswick</option>
-            <option value="NL">Newfoundland and Labrador</option>
-            <option value="PE">Prince Edward Island</option>
-            <option value="NT">Northwest Territories</option>
-            <option value="NU">Nunavut</option>
-            <option value="YT">Yukon</option>
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Postal Code <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={clientInfo.postalCode}
-            onChange={handlePostalCodeChange}
-            placeholder="M5V 3A8"
-            maxLength={7}
           />
         </div>
       </div>
@@ -703,7 +859,7 @@ export default function PlacementWizard() {
               phone: '',
               address: '',
               city: '',
-              province: 'ON',
+              province: '',
               postalCode: ''
             });
             setBusinessDetails({
@@ -715,6 +871,8 @@ export default function PlacementWizard() {
             });
             setCarriers([]);
             setSelectedCarriers([]);
+            setError('');
+            setPostalCodeInfo('');
           }}
           className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
