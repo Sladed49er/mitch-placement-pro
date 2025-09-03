@@ -1,7 +1,14 @@
+// ============================================
+// FILE: /app/placement/page.tsx
+// LOCATION: Replace your existing /app/placement/page.tsx file with this entire content
+// PURPOSE: Main placement wizard page that uses the ComparativeRater component for Step 2
+// ============================================
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import ComparativeRater from '@/app/components/ComparativeRater';
 import postalCodesData from '@/data/postal-codes.json';
 
 interface ClientInfo {
@@ -22,6 +29,29 @@ interface BusinessDetails {
   numberOfEmployees: string;
   yearsInBusiness: string;
   lossHistory: string;
+  // Additional comparative rater fields
+  annual_revenue_range?: string;
+  employee_range?: string;
+  secondary_operations?: string;
+  annual_payroll?: string;
+  operations_location?: string;
+  building_occupancy?: string;
+  uses_subcontractors?: string;
+  previous_insurance?: string;
+  prior_experience?: string;
+  subcontractor_percentage?: string;
+  requires_certificates?: string;
+  us_percentage?: string;
+  safety_program?: string;
+  loss_history?: string;
+  work_heights?: boolean;
+  hazmat?: boolean;
+  professional_services?: boolean;
+  products_sold?: boolean;
+  alcohol_sales?: boolean;
+  vehicle_repair?: boolean;
+  data_storage?: boolean;
+  none_apply?: boolean;
 }
 
 interface Carrier {
@@ -117,7 +147,23 @@ export default function PlacementWizard() {
     annualRevenue: '',
     numberOfEmployees: '',
     yearsInBusiness: '',
-    lossHistory: 'No claims (5+ years)'
+    lossHistory: 'No claims (5+ years)',
+    // Initialize comparative rater fields
+    annual_revenue_range: '',
+    employee_range: '',
+    secondary_operations: 'no',
+    annual_payroll: '',
+    operations_location: '',
+    building_occupancy: '',
+    uses_subcontractors: 'no',
+    previous_insurance: '',
+    prior_experience: '',
+    subcontractor_percentage: '',
+    requires_certificates: '',
+    us_percentage: '',
+    safety_program: '',
+    loss_history: '',
+    none_apply: false
   });
 
   // Fetch NAICS codes on component mount
@@ -314,8 +360,8 @@ export default function PlacementWizard() {
 
   const validateStep2 = () => {
     return businessDetails.industry && 
-           businessDetails.annualRevenue && 
-           businessDetails.numberOfEmployees && 
+           businessDetails.annual_revenue_range && 
+           businessDetails.employee_range && 
            businessDetails.yearsInBusiness;
   };
 
@@ -336,11 +382,70 @@ export default function PlacementWizard() {
     }
   };
 
+  // Helper functions to map comparative rater values to existing format
+  const mapRevenueRange = (range: string): string => {
+    const mapping: Record<string, string> = {
+      '0-100k': '50000',
+      '100k-250k': '175000',
+      '250k-500k': '375000',
+      '500k-1m': '750000',
+      '1m-2.5m': '1750000',
+      '2.5m-5m': '3750000',
+      '5m-10m': '7500000',
+      '10m-25m': '17500000',
+      '25m-50m': '37500000',
+      '50m+': '75000000'
+    };
+    return mapping[range] || '1000000';
+  };
+
+  const mapEmployeeRange = (range: string): string => {
+    const mapping: Record<string, string> = {
+      '1-2': '2',
+      '3-5': '4',
+      '6-10': '8',
+      '11-25': '18',
+      '26-50': '38',
+      '51-100': '75',
+      '101-250': '175',
+      '250+': '500'
+    };
+    return mapping[range] || '10';
+  };
+
+  const mapYearsInBusiness = (years: string): string => {
+    if (years === '25+') return '30';
+    if (years === '11-25') return '15';
+    if (years === '6-10') return '8';
+    if (years === '3-5') return '4';
+    return years;
+  };
+
+  const mapLossHistory = (history: string): string => {
+    const mapping: Record<string, string> = {
+      'none': 'No claims (5+ years)',
+      '1_small': '1-2 claims',
+      '1_large': '1-2 claims',
+      '2-3_claims': '1-2 claims',
+      '4+_claims': '3+ claims'
+    };
+    return mapping[history] || 'No claims (5+ years)';
+  };
+
   const handleFindCarriers = async () => {
     if (!validateStep2()) {
       setError('Please fill in all required fields');
       return;
     }
+
+    // Map the comparative rater fields to existing API structure
+    const mappedDetails = {
+      industry: businessDetails.industry,
+      annualRevenue: mapRevenueRange(businessDetails.annual_revenue_range || ''),
+      numberOfEmployees: mapEmployeeRange(businessDetails.employee_range || ''),
+      yearsInBusiness: mapYearsInBusiness(businessDetails.yearsInBusiness),
+      lossHistory: mapLossHistory(businessDetails.loss_history || businessDetails.lossHistory)
+    };
 
     setLoading(true);
     setError('');
@@ -353,7 +458,7 @@ export default function PlacementWizard() {
         },
         body: JSON.stringify({
           clientInfo,
-          businessDetails
+          businessDetails: mappedDetails
         })
       });
 
@@ -597,110 +702,16 @@ export default function PlacementWizard() {
     </div>
   );
 
+  // MODIFIED: Use ComparativeRater component for Step 2
   const renderBusinessDetails = () => (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold mb-4">Business Details</h2>
-      
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          Industry (NAICS) <span className="text-red-500">*</span>
-        </label>
-        <select
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={businessDetails.industry}
-          onChange={(e) => setBusinessDetails({...businessDetails, industry: e.target.value})}
-        >
-          <option value="">Select an industry</option>
-          {naicsCodes.map((code) => (
-            <option key={code.code} value={code.code}>
-              {code.code} - {code.description}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          Annual Revenue (CAD) <span className="text-red-500">*</span>
-        </label>
-        <div className="relative">
-          <span className="absolute left-3 top-2 text-gray-500">$</span>
-          <input
-            type="text"
-            className="w-full pl-8 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={businessDetails.annualRevenue ? formatCurrency(businessDetails.annualRevenue) : ''}
-            onChange={handleRevenueChange}
-            placeholder="2,000,000"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Number of Employees <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="number"
-            min="1"
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={businessDetails.numberOfEmployees}
-            onChange={(e) => setBusinessDetails({...businessDetails, numberOfEmployees: e.target.value})}
-            placeholder="50"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Years in Business <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="number"
-            min="0"
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={businessDetails.yearsInBusiness}
-            onChange={(e) => setBusinessDetails({...businessDetails, yearsInBusiness: e.target.value})}
-            placeholder="5"
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          Loss History <span className="text-red-500">*</span>
-        </label>
-        <select
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          value={businessDetails.lossHistory}
-          onChange={(e) => setBusinessDetails({...businessDetails, lossHistory: e.target.value})}
-        >
-          <option value="No claims (5+ years)">No claims (5+ years)</option>
-          <option value="1-2 claims">1-2 claims in last 5 years</option>
-          <option value="3+ claims">3+ claims in last 5 years</option>
-        </select>
-      </div>
-
-      {error && (
-        <div className="p-3 bg-red-100 text-red-700 rounded-lg">
-          {error}
-        </div>
-      )}
-
-      <div className="flex justify-between mt-6">
-        <button
-          onClick={handleBack}
-          className="px-6 py-2 border rounded-lg hover:bg-gray-50"
-        >
-          Back
-        </button>
-        <button
-          onClick={handleFindCarriers}
-          disabled={loading}
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
-        >
-          {loading ? 'Finding Carriers...' : 'Find Carriers'}
-        </button>
-      </div>
-    </div>
+    <ComparativeRater
+      businessDetails={businessDetails}
+      setBusinessDetails={setBusinessDetails}
+      onNext={handleFindCarriers}
+      onBack={handleBack}
+      loading={loading}
+      error={error}
+    />
   );
 
   const renderCarrierSelection = () => (
@@ -867,7 +878,22 @@ export default function PlacementWizard() {
               annualRevenue: '',
               numberOfEmployees: '',
               yearsInBusiness: '',
-              lossHistory: 'No claims (5+ years)'
+              lossHistory: 'No claims (5+ years)',
+              annual_revenue_range: '',
+              employee_range: '',
+              secondary_operations: 'no',
+              annual_payroll: '',
+              operations_location: '',
+              building_occupancy: '',
+              uses_subcontractors: 'no',
+              previous_insurance: '',
+              prior_experience: '',
+              subcontractor_percentage: '',
+              requires_certificates: '',
+              us_percentage: '',
+              safety_program: '',
+              loss_history: '',
+              none_apply: false
             });
             setCarriers([]);
             setSelectedCarriers([]);
