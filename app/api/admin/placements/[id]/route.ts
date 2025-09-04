@@ -6,9 +6,10 @@ import { prisma } from '@/lib/prisma';
 // GET single placement with full details
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const session = await auth();
     
     if (!session?.user?.id || session.user.role !== 'admin') {
@@ -81,9 +82,10 @@ export async function GET(
 // PUT update single placement
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const session = await auth();
     
     if (!session?.user?.id || session.user.role !== 'admin') {
@@ -130,9 +132,10 @@ export async function PUT(
 // DELETE single placement
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
+    const params = await context.params;
     const session = await auth();
     
     if (!session?.user?.id || session.user.role !== 'admin') {
