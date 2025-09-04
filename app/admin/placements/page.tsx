@@ -374,8 +374,8 @@ export default function AdminPlacementsPage() {
               />
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-            <div className="flex space-x-2">
+          <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
+            <div className="flex space-x-2 flex-1 min-w-[200px] max-w-md">
               <input
                 type="number"
                 placeholder="Min Revenue"
@@ -391,19 +391,21 @@ export default function AdminPlacementsPage() {
                 className="px-3 py-2 border rounded flex-1"
               />
             </div>
-            <button
-              onClick={() => {
-                setSearchTerm('');
-                setStatusFilter('');
-                setDateRange({ start: '', end: '' });
-                setRevenueRange({ min: '', max: '' });
-              }}
-              className="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200"
-            >
-              Clear All Filters
-            </button>
-            <div className="text-sm text-gray-600 flex items-center">
-              Found {placements.length} placements
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => {
+                  setSearchTerm('');
+                  setStatusFilter('');
+                  setDateRange({ start: '', end: '' });
+                  setRevenueRange({ min: '', max: '' });
+                }}
+                className="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 whitespace-nowrap"
+              >
+                Clear All Filters
+              </button>
+              <div className="text-sm text-gray-600 whitespace-nowrap">
+                Found {placements.length} placements
+              </div>
             </div>
           </div>
         </div>
