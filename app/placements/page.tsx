@@ -258,16 +258,18 @@ export default function PlacementsPage() {
                   </div>
                 </div>
 
-                <div>
-                  <h3 className="font-semibold mb-2">Coverage Types</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedPlacement.coverageType.map((type, index) => (
-                      <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                        {type}
-                      </span>
-                    ))}
+                {selectedPlacement.coverageType && selectedPlacement.coverageType.length > 0 && (
+                  <div>
+                    <h3 className="font-semibold mb-2">Coverage Types</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {selectedPlacement.coverageType.map((type, index) => (
+                        <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                          {type}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div>
                   <h3 className="font-semibold mb-2">Status & Dates</h3>
