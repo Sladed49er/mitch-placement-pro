@@ -612,7 +612,51 @@ export default function AdminPlacementsPage() {
                 </div>
               )}
 
-              {/* Notes Section */}
+              {selectedPlacement.selectedCarriers && selectedPlacement.selectedCarriers.length > 0 && (
+                <div className="mb-6 p-4 bg-indigo-50 rounded">
+                  <h3 className="font-semibold text-lg mb-3">Submitted Carriers</h3>
+                  <p className="text-sm text-gray-600 mb-3">
+                    This placement was submitted to {selectedPlacement.selectedCarriers.length} carrier(s)
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {selectedPlacement.selectedCarriers.map((carrierId, index) => {
+                      let carrierName = carrierId;
+                      let carrierDetails = null;
+                      
+                      if (selectedPlacement.matchResults && Array.isArray(selectedPlacement.matchResults)) {
+                        const found = selectedPlacement.matchResults.find((c: any) => 
+                          c && (c.id === carrierId || c.carrierId === carrierId)
+                        );
+                        if (found) {
+                          carrierName = found.name || carrierId;
+                          carrierDetails = found;
+                        }
+                      }
+                      
+                      return (
+                        <div key={index} className="bg-white p-3 rounded border border-indigo-200">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className="font-medium text-gray-900">{carrierName}</p>
+                              {carrierDetails && carrierDetails.responseTime && (
+                                <p className="text-xs text-gray-500 mt-1">
+                                  Response: {carrierDetails.responseTime}
+                                </p>
+                              )}
+                            </div>
+                            {carrierDetails && carrierDetails.matchScore != null && (
+                              <span className="text-sm font-semibold text-indigo-600">
+                                {carrierDetails.matchScore}%
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
               <div className="mb-6">
                 <h3 className="font-semibold text-lg mb-3">Notes</h3>
                 <div className="mb-4 p-4 bg-gray-50 rounded">
@@ -659,8 +703,8 @@ export default function AdminPlacementsPage() {
                       <div key={note.id} className="p-3 bg-white border rounded">
                         <div className="flex justify-between text-xs text-gray-500 mb-1">
                           <span>
-                            {note.user.name || note.user.email} • {note.type}
-                            {note.isPrivate && ' • Private'}
+                            {note.user.name || note.user.email} | {note.type}
+                            {note.isPrivate && ' | Private'}
                           </span>
                           <span>{new Date(note.createdAt).toLocaleString()}</span>
                         </div>
