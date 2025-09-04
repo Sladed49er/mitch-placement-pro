@@ -1,4 +1,6 @@
 // FILE: app/admin/placements/page.tsx
+// LOCATION: Replace ENTIRE file at app/admin/placements/page.tsx
+// PURPOSE: Admin placement management with carrier management link in header
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -101,10 +103,15 @@ export default function AdminPlacementsPage() {
   const [noteType, setNoteType] = useState('general');
   const [notePrivate, setNotePrivate] = useState(false);
 
-  // Type assertion for session with proper type checking
-  const isAdmin = (session: Session | null): session is ExtendedSession => {
-    return !!(session?.user && 'role' in session.user && (session.user as any).role === 'admin');
+  // Check if user has admin or agency_manager role
+  const hasAccess = (session: Session | null): session is ExtendedSession => {
+    if (!session?.user || !('role' in session.user)) return false;
+    const role = (session.user as any).role;
+    return role === 'admin' || role === 'agency_manager';
   };
+
+  const userRole = session?.user && 'role' in session.user ? (session.user as any).role : null;
+  const isAdmin = userRole === 'admin';
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -113,7 +120,7 @@ export default function AdminPlacementsPage() {
     }
     
     if (status === 'authenticated' && session) {
-      if (!isAdmin(session)) {
+      if (!hasAccess(session)) {
         router.push('/dashboard');
         return;
       }
@@ -121,7 +128,7 @@ export default function AdminPlacementsPage() {
   }, [status, session, router]);
 
   useEffect(() => {
-    if (session && isAdmin(session)) {
+    if (session && hasAccess(session)) {
       fetchPlacements();
     }
   }, [session, searchTerm, statusFilter, dateRange, revenueRange]);
@@ -294,7 +301,7 @@ export default function AdminPlacementsPage() {
     );
   }
 
-  if (!session || !isAdmin(session)) {
+  if (!session || !hasAccess(session)) {
     return null;
   }
 
@@ -303,32 +310,48 @@ export default function AdminPlacementsPage() {
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
-            <h1 className="text-2xl font-bold text-gray-900">Placement Management</h1>
-            <div className="space-x-4">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">Placement Management</h1>
+              <p className="text-sm text-gray-600 mt-1">
+                Manage all placement requests
+                {!isAdmin && <span className="ml-2 text-blue-600">(Agency Manager View)</span>}
+              </p>
+            </div>
+            <div className="flex items-center space-x-3">
               <button
                 onClick={handleExport}
                 disabled={exporting}
-                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+                className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 text-sm font-medium"
               >
-                {exporting ? 'Exporting...' : 'Export All'}
+                {exporting ? 'Exporting...' : 'Export CSV'}
               </button>
               <Link
-                href="/admin/users"
-                className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                href="/admin/carriers"
+                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 text-sm font-medium"
               >
-                Manage Users
+                Manage Carriers
               </Link>
-              <Link
-                href="/admin/reports"
-                className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
-              >
-                View Reports
-              </Link>
+              {isAdmin && (
+                <>
+                  <Link
+                    href="/admin/users"
+                    className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 text-sm font-medium"
+                  >
+                    Manage Users
+                  </Link>
+                  <Link
+                    href="/admin/reports"
+                    className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 text-sm font-medium"
+                  >
+                    View Reports
+                  </Link>
+                </>
+              )}
               <Link
                 href="/dashboard"
-                className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                className="px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 text-sm font-medium"
               >
-                Dashboard
+                Back to Dashboard
               </Link>
             </div>
           </div>
